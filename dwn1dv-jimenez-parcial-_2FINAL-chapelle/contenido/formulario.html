@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dave Chappelle</title>
+
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="../css/estilo_clases.css">
+    <link rel="stylesheet" href="../css/formulario.css">
+
+
+    <!-- tipografia -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300&display=swap"
+        rel="stylesheet">
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
+    <link rel="mask-icon" href="../favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ff4a16">
+    <meta name="theme-color" content="#ffffff">
+
+
+
+</head>
+
+<body>
+    <nav id="menu">
+        <a href="../index.html">Introduccion</a>
+        <a href="carrera_temprana.html">Carrera temprana</a>
+        <a href="chapelle_show.html" lang="en">Chappelle's Show</a>
+        <a href="el_final_del_show.html">EL final del show</a>
+        <a href="el_regreso.html">El regreso</a>
+        <a href="filmografia.html">Filmografia</a>
+        <a href="buddies.html">Buddies</a>
+        <a href="#sec_7" class="pagina_activada">Suscripcion</a>
+    </nav>
+
+    <header>
+        <h1>Dave Chappelle</h1>
+    </header>
+
+    <main>
+        <form action="datos_a_procesar.php" method="post" autocomplete="off">
+            <fieldset>
+                <h2>Datos Personales</h2>
+
+                <label for="apellido">Apellido:</label>
+                <input type="text" name="apellido" id="apellido" placeholder="apellido" required>
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" placeholder="nombre" required>
+
+                <div class="email_fecha_nacimiento">
+
+                    <label for="pass">e-Mail:</label>
+                    <input type="email" name="pass" id="pass" placeholder="e-Mail" required>
+
+                    <label for="nacimiento">Fecha de nacimiento:</label>
+                    <input type="date" name="nacimiento" id="nacimiento" min="1950-01-01" max="2020-01-01"
+                        value="1995-10-17" required>
+
+                </div>
+
+                <h3>Dejanos tu opinion.. </h3>
+
+                <label for="texto_opinion">texto</label>
+                <textarea id="texto_opinion" name="texto_opinion" placeholder="Mensaje " maxlength="300"></textarea>
+
+
+                <div class="preguntas_opcionales">
+                    <div>
+                        <span>
+                            ¿que seccion de la pagina te gusto mas?
+                        </span>
+
+
+                        <label for="seccion_preferida">¿que seccion de la pagina te gusto mas?</label>
+                        <select id="seccion_preferida" name="seccion_preferida">
+                            <option value="Introducción">Introducción</option>
+                            <option value="Carrera temprana">Carrera temprana</option>
+                            <option value="Chappelle´s show">Chappelle´s show</option>
+                            <option value="El final del show">El final del show</option>
+                            <option value="El regreso">El regreso</option>
+                            <option value="Filmografia">Filmografia</option>
+                            <option value="Buddies (1996)">Buddies (1996)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <span>
+                            ¿Cual fue tu especial de Netflix favorito ?
+                        </span>
+
+                        <input type="checkbox" id="the_age_of_spin" name="especiales_favoritos[]"
+                            value="the_age_of_spin" checked>
+                        <label for="the_age_of_spin">"The Age of Spin"</label><br>
+
+
+                        <input type="checkbox" id="equanimity" name="especiales_favoritos[]" value="equanimity">
+                        <label for="equanimity">"Equanimity"</label><br>
+
+
+                        <input type="checkbox" id="the_bird_revelations" name="especiales_favoritos[]"
+                            value="the_bird_revelations" checked>
+                        <label for="the_bird_revelations">"The Bird Revelations"</label><br>
+
+                        <input type="checkbox" id="the_heart_of_texas" name="especiales_favoritos[]"
+                            value="the_heart_of_texas" checked>
+                        <label for="the_heart_of_texas">"Deep in the Heart of Texas"</label><br>
+
+                    </div>
+                </div>
+
+                <input type="submit" value="Enviar">
+
+            </fieldset>
+        </form>
+
+    </main>
+    <footer>
+        <div><img src="../imagenes/perfil_frente.jpg" alt="perfil del autor de frente" width="250" height="249">
+            <ul>
+                <li>Gustavo Alex Jimenez Crespo</li>
+                <li>17/10/1995</li>
+                <li>gustavo.jimenez.crespo@gmail.com</li>
+            </ul>
+            <ul class="links_fuentes">
+                <li><a href="https://en.wikipedia.org/wiki/Chappelle%27s_Show#Frequent_or_notable_guest_stars"
+                        target="_blank">wikipedia/Chappelles_show</a></li>
+                <li><a href="https://es.wikipedia.org/wiki/Dave_Chappelle#Filmograf%C3%ADa"
+                        target="_blank">wikipedia/Dave_Chapelle</a></li>
+                <li><a href="https://elpais.com/elpais/2017/03/15/icon/1489572882_162900.html"
+                        target="_blank">elpais.com</a></li>
+                <li><a href="https://www.lahiguera.net/cinemania/actores/dave_chappelle/biografia.php"
+                        target="_blank">lahiguera.net</a></li>
+                <li><a href="https://es.swashvillage.org/article/dave-chappelle-biography"
+                        target="_blank">swashvillage.org</a></li>
+                <li><a href="https://www.cbsnews.com/news/dave-chappelle-netflix-comedy-fame-leaving-chappelles-show/"
+                        target="_blank">cbsnews.com</a></li>
+                <li><a href="https://www.wikiwand.com/en/Chappelle%27s_Show" target="_blank">wikiwand.com</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Buddies_(TV_series)" target="_blank">wikipedia.org</a></li>
+                <li><a href="https://www.vulture.com/2013/05/buddies-dave-chappelles-home-improvement-spin-off-that-actually-got-made.html" 
+                    target="_blank">vulture.com</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>

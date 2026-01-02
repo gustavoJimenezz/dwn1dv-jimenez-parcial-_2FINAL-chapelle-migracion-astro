@@ -1,0 +1,159 @@
+
+body {
+    box-sizing: border-box;
+    margin: 0px;
+    background-color: #0e0f13;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.1em;
+    line-height: 28px;
+    color: white;
+}
+
+header {
+    background-image: url("../imagenes/dave-chapelle-escenario.jpg");
+    background-attachment: fixed;
+    background-size: 1006px;
+    background-position-x: center;
+    background-repeat: no-repeat;
+    background-color: black;
+    border-bottom: solid 2px #ff0213;
+}
+
+section {
+    max-width: 750px;
+    margin: auto;
+    padding: 50px 0px;
+}
+
+
+/* Titulos */
+h1 {
+    background: linear-gradient(rgba(3, 3, 3, 0) 30%, rgb(0 0 0));
+    font-weight: 300;
+    font-size: 3.5em;
+    text-shadow: 1px 1px 10px #ff0213;
+
+    text-align: center;
+    padding-top: 480px;
+    padding-bottom: 50px;
+    margin: auto;
+}
+
+h3,
+h2 {
+    font-weight: 300;
+    padding: 5px 0px;
+    border-bottom: 2px solid #ff0213;
+}
+
+h3 {
+    display: block;
+    width: 200px;
+    text-align: center;
+    margin: 10px auto;
+}
+
+h4 {
+    margin: 2px auto;
+}
+
+/* Navegación de sectores */
+
+
+/* backup *//*Agregue position: sticky ya que las funciones de navegacion a los sectores 
+    no parecia tan funcional una vez el contenedor nav desaparece de la ventana
+    -El elemento flotará cuando la posición de la ventana gráfica 
+    coincida con la definición de posición por eso es necesario top: 0px; 
+    */
+    /* 
+    La propiedad CSS z-index indica el orden de un elemento posicionado
+    */
+
+nav {
+    top: 0px;
+    position: sticky;
+    z-index: 1;
+    background-color: #000000;
+    padding: 12px 0px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0px 10px;
+    display: inline-block;
+    height: 1.5em; 
+}
+
+nav a::after {
+    content: "";
+    display: block;
+    margin: 0px auto;
+    width: 0px;
+}
+
+nav a:hover::after{
+    border-bottom: 2px solid #ff0213;
+    width: 100%;
+    transition: width 0.5s;
+}
+
+abbr {
+    text-decoration: none;
+    color: #b9d0fc;
+}
+
+a {
+    text-decoration: none;
+    color: #8cb4ff;
+}
+/* configuracion general de ../imagenes */
+img {
+    display: block;
+    margin: auto;
+    width: 700px;
+    border-radius: 10px;
+}
+
+p {
+    padding: 0.8em;
+}
+
+blockquote {
+    font-style: italic;
+    margin-right: 0px;
+    padding: 0.8px;
+}
+
+/* foto, datos personales y fuentes  */
+footer {
+    background-color: black;
+    border-top: 3px solid #ff0213;
+    font-size: 1em;
+}
+
+footer img {
+    display: block;
+    float: left;
+    width: 250px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+footer div {
+    overflow: auto;
+    max-width: 750px;
+    margin: auto;
+}
+
+footer ul {
+    list-style: none;
+    margin: 40px auto
+}
+
+footer li {
+    text-align: center;
+    margin: 0px;
+    border: none;
+}
