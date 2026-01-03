@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Configuración de tema personalizado según plan de migración */
+@theme {
+  --color-dark-bg: #0e0f13;
+  --color-red-accent: #ff0213;
+  --color-link-blue: #8cb4ff;
+  --color-darker: #000000;
+
+  --font-family-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+}

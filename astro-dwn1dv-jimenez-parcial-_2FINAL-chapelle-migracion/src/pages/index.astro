@@ -1,0 +1,21 @@
+---
+// Página de prueba - FASE 0
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Dave Chappelle - Test FASE 0">
+  <main class="max-w-[750px] mx-auto py-12 px-4">
+    <h1 class="text-[3.5em] font-light text-center mb-8">Dave Chappelle</h1>
+    <h2 class="text-2xl border-b-2 border-red-accent pb-2 mb-4">Test de configuración FASE 0</h2>
+    <p class="mb-4">Esta es una página de prueba para verificar que Astro + Tailwind CSS están funcionando correctamente.</p>
+    <ul class="list-disc ml-6 space-y-2">
+      <li class="text-link-blue">Tailwind CSS configurado ✓</li>
+      <li class="text-link-blue">Colores personalizados funcionando ✓</li>
+      <li class="text-link-blue">Google Fonts (Open Sans) cargadas ✓</li>
+      <li class="text-link-blue">BaseLayout creado ✓</li>
+    </ul>
+    <div class="mt-8 p-4 bg-darker rounded-lg">
+      <p class="text-center">Fondo oscuro personalizado (bg-darker)</p>
+    </div>
+  </main>
+</BaseLayout>
