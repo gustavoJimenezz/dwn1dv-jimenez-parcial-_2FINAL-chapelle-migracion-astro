@@ -212,6 +212,238 @@ npm run dev
 
 ---
 
+## FASE 1: LAYOUT BASE Y COMPONENTES DE ESTRUCTURA
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-03
+**Complejidad:** MEDIA
+
+### Objetivo
+Crear layout base y componentes estructurales repetidos (Header, Nav, Footer, BackToTop) con datos externos en TypeScript.
+
+---
+
+### 1.1 Archivos de Datos TypeScript
+
+#### `/src/data/navigation.ts`
+**Líneas principales:**
+- Línea 1: Interface `NavLink` con propiedades id, href, label, section
+- Línea 7: Array `navLinks` con 8 enlaces de navegación
+
+**Rutas normalizadas (kebab-case):**
+- `/` (index)
+- `/carrera-temprana`
+- `/chapelle-show`
+- `/el-final-del-show`
+- `/el-regreso`
+- `/filmografia`
+- `/buddies`
+- `/suscripcion`
+
+#### `/src/data/author.ts`
+**Líneas principales:**
+- Línea 1: Interface `Author` con propiedades name, birthdate, email, image
+- Línea 8: Objeto `author` con datos del autor
+
+**Datos incluidos:**
+- Nombre: Gustavo Alex Jimenez Crespo
+- Fecha nacimiento: 17/10/1995
+- Email: gustavo.jimenez.crespo@gmail.com
+- Imagen: /imagenes/perfil_frente.jpg
+
+#### `/src/data/sources.ts`
+**Líneas principales:**
+- Línea 1: Interface `Source` con propiedades id, label, url
+- Línea 7: Array `sources` con 9 fuentes bibliográficas
+
+**Fuentes incluidas:**
+- wikipedia/Chappelles_show
+- wikipedia/Dave_Chapelle
+- elpais.com
+- lahiguera.net
+- swashvillage.org
+- cbsnews.com
+- wikiwand.com
+- wikipedia.org (Buddies)
+- vulture.com
+
+---
+
+### 1.2 Layout Base
+
+#### `/src/layouts/BaseLayout.astro`
+**Archivo modificado** (reemplaza versión preliminar de FASE 0)
+
+**Líneas principales:**
+- Línea 2-4: Imports de componentes Navigation, Header, Footer, BackToTop
+- Línea 7-9: Interface Props con title y activeSection
+- Línea 17-35: Meta tags y configuración de fuentes/favicons
+- Línea 24: Google Fonts (Open Sans pesos 300, 400, 700)
+- Línea 27-33: Favicons completos
+- Línea 36: Body con clases Tailwind
+- Línea 37-39: Componentes estructurales (Navigation, Header, BackToTop)
+- Línea 43: Slot para contenido dinámico
+- Línea 45: Footer
+
+**Mapeo CSS → Tailwind (línea 36):**
+```
+background-color: #0e0f13 → bg-dark-bg
+font-family: 'Open Sans' → font-sans
+font-size: 1.1em → text-lg
+line-height: 28px → leading-[28px]
+```
+
+---
+
+### 1.3 Componente Navigation
+
+#### `/src/components/Navigation.astro`
+
+**Líneas principales:**
+- Línea 2: Import de datos navigation.ts
+- Línea 4-6: Interface Props con activeSection
+- Línea 11: Nav con clases Tailwind sticky
+- Línea 13-19: Map sobre navLinks con clase dinámica
+- Línea 22-30: Estilos scoped para ::after y hover
+
+**Mapeo CSS → Tailwind (línea 11):**
+```
+position: sticky; top: 0; z-index: 1 → sticky top-0 z-10
+background-color: #000000 → bg-darker
+padding: 12px 0px → py-3
+text-align: center → text-center
+```
+
+**Efectos implementados:**
+- Hover con border-bottom rojo animado (::after con transition)
+- Clase condicional `pagina-activada` según activeSection
+- Preparado para animación keyframe (se implementará en FASE 7)
+
+---
+
+### 1.4 Componente Header
+
+#### `/src/components/Header.astro`
+
+**Líneas principales:**
+- Línea 5: Header con background parallax y clases Tailwind
+- Línea 6: H1 con gradiente inline y text-shadow
+
+**Mapeo CSS → Tailwind (línea 5):**
+```
+background-attachment: fixed → bg-fixed
+background-size: 1006px → bg-[length:1006px]
+background-position-x: center → bg-center
+background-repeat: no-repeat → bg-no-repeat
+background-color: black → bg-black
+border-bottom: 2px solid #ff0213 → border-b-2 border-red-accent
+```
+
+**Mapeo H1 (línea 6):**
+```
+font-weight: 300 → font-light
+font-size: 3.5em → text-[3.5em]
+text-align: center → text-center
+padding-top: 480px → pt-[480px]
+padding-bottom: 50px → pb-12
+```
+
+**Estilos inline conservados:**
+- Gradiente linear-gradient sobre h1
+- text-shadow para efecto de brillo rojo
+
+---
+
+### 1.5 Componente Footer
+
+#### `/src/components/Footer.astro`
+
+**Líneas principales:**
+- Línea 2-3: Imports de author.ts y sources.ts
+- Línea 7: Footer con clases Tailwind
+- Línea 8: Div contenedor con overflow-auto
+- Línea 9-15: Imagen flotante izquierda
+- Línea 16-20: Lista datos del autor
+- Línea 21-28: Map sobre sources con enlaces externos
+
+**Mapeo CSS → Tailwind:**
+```
+background-color: black → bg-black
+border-top: 3px solid #ff0213 → border-t-[3px] border-red-accent
+font-size: 1em → text-base
+overflow: auto → overflow-auto
+max-width: 750px → max-w-[750px]
+margin: auto → mx-auto
+```
+
+**Imagen footer:**
+```
+float: left → float-left
+width: 250px → w-[250px]
+border-radius: 10px → rounded-[10px]
+margin: 10px → m-2.5
+```
+
+**Características:**
+- Enlaces externos con `rel="noopener noreferrer"` (seguridad)
+- Uso de datos TypeScript tipados
+- Consistencia en todas las páginas (corrige inconsistencia de filmografia.html)
+
+---
+
+### 1.6 Componente BackToTop
+
+#### `/src/components/BackToTop.astro`
+
+**Líneas principales:**
+- Línea 2-4: Interface Props con targetId
+- Línea 9: Enlace con aria-label (accesibilidad)
+- Línea 13-23: Estilos scoped con position fixed
+
+**Características:**
+- Position fixed bottom-right (bottom: 50px, right: 50px)
+- Background con icono_flacha.png
+- Border-radius 50% (círculo)
+- Hover con border azul (#8cb4ff)
+- Accesibilidad: aria-label "Volver al inicio"
+
+---
+
+## Resumen FASE 1
+
+**Archivos creados:** 8 totales
+- 3 archivos de datos TypeScript (navigation.ts, author.ts, sources.ts)
+- 1 layout (BaseLayout.astro modificado)
+- 4 componentes (Navigation.astro, Header.astro, Footer.astro, BackToTop.astro)
+
+**Mapeos principales CSS → Tailwind:**
+| CSS Original | Tailwind | Componente |
+|--------------|----------|------------|
+| `background-color: #0e0f13` | `bg-dark-bg` | BaseLayout |
+| `font-family: 'Open Sans'` | `font-sans` | BaseLayout |
+| `font-size: 1.1em` | `text-lg` | BaseLayout |
+| `line-height: 28px` | `leading-[28px]` | BaseLayout |
+| `position: sticky; top: 0` | `sticky top-0` | Navigation |
+| `background-color: #000000` | `bg-darker` | Navigation |
+| `padding: 12px 0px` | `py-3` | Navigation |
+| `background-attachment: fixed` | `bg-fixed` | Header |
+| `background-size: 1006px` | `bg-[length:1006px]` | Header |
+| `font-weight: 300` | `font-light` | Header h1 |
+| `font-size: 3.5em` | `text-[3.5em]` | Header h1 |
+| `padding-top: 480px` | `pt-[480px]` | Header h1 |
+| `border-bottom: 2px solid #ff0213` | `border-b-2 border-red-accent` | Header |
+
+**Notas técnicas:**
+- TypeScript: Interfaces para tipado de datos
+- Estilos scoped: Uso de `<style>` en componentes para pseudo-elementos (::after)
+- Accesibilidad: aria-label en BackToTop
+- Seguridad: rel="noopener noreferrer" en enlaces externos
+- Pendiente: Animación keyframe `mianimacion` para .pagina-activada (FASE 7)
+
+**Estado:** FASE 1 completada exitosamente. Todos los componentes estructurales están creados y listos para ser usados en las páginas.
+
+---
+
 ## FASE 2: PÁGINA INDEX (MIGRACIÓN COMPLETA)
 
 **Estado:** ✅ Completada
@@ -436,13 +668,3 @@ Enlaces:
 - Flex con gap-5
 
 **Estado:** La FASE 2 está completada exitosamente. La página index.html ha sido migrada completamente a Astro con componentes reutilizables.
-
----
-
-## Próximos pasos
-
-**FASE 3:** Componentes de personajes
-- Duración estimada: 1.5 horas
-- Componentes a crear: 3
-- Archivos de datos: 1
-- Página: chapelle-show.astro

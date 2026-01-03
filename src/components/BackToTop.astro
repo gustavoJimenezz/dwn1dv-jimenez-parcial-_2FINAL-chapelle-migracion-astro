@@ -1,0 +1,31 @@
+---
+interface Props {
+  targetId: string;
+}
+
+const { targetId } = Astro.props;
+---
+
+<div class="volver-al-menu">
+  <a href={`#${targetId}`} aria-label="Volver al inicio"></a>
+</div>
+
+<style>
+  .volver-al-menu a {
+    position: fixed;
+    background-image: url("/imagenes/icono_flacha.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-color: #000000;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    bottom: 50px;
+    right: 50px;
+  }
+
+  .volver-al-menu a:hover {
+    border: solid 2px #8cb4ff;
+  }
+</style>

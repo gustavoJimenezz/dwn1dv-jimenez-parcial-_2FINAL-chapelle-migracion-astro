@@ -1,0 +1,41 @@
+---
+import { navLinks } from '../data/navigation';
+
+interface Props {
+  activeSection: string;
+}
+
+const { activeSection } = Astro.props;
+---
+
+<nav class="sticky top-0 z-10 bg-darker py-3 text-center">
+  {navLinks.map((link) => (
+    <a
+      href={link.href}
+      class={`text-white no-underline px-2.5 inline-block h-6 nav-link ${activeSection === link.section ? 'pagina-activada' : ''}`}
+    >
+      {link.label}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .nav-link::after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 0;
+  }
+
+  .nav-link:hover::after {
+    border-bottom: 2px solid #ff0213;
+    width: 100%;
+    transition: width 0.5s;
+  }
+
+  .pagina-activada {
+    position: relative;
+  }
+
+  /* Animación de página activada - se implementará en FASE 7 con keyframes en global.css */
+</style>
