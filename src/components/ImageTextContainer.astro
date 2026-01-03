@@ -1,0 +1,28 @@
+---
+interface Props {
+  imageSrc: string;
+  imageAlt: string;
+  imagePosition?: 'left' | 'right';
+  imageWidth?: number;
+  imageHeight?: number;
+}
+
+const {
+  imageSrc,
+  imageAlt,
+  imagePosition = 'right',
+  imageWidth = 250,
+  imageHeight = 297
+} = Astro.props;
+---
+
+<div class="overflow-auto">
+  <img
+    src={imageSrc}
+    alt={imageAlt}
+    width={imageWidth}
+    height={imageHeight}
+    class={imagePosition === 'left' ? 'float-left mr-5 mb-3' : 'float-right ml-5 mb-3'}
+  />
+  <slot />
+</div>

@@ -1,0 +1,25 @@
+---
+interface Gif {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  gifs: Gif[];
+}
+
+const { gifs } = Astro.props;
+---
+
+<div class="flex gap-5">
+  {gifs.map((gif) => (
+    <img
+      src={gif.src}
+      alt={gif.alt}
+      width={gif.width}
+      height={gif.height}
+    />
+  ))}
+</div>

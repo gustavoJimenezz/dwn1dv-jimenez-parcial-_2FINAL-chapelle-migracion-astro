@@ -212,9 +212,237 @@ npm run dev
 
 ---
 
+## FASE 2: PÁGINA INDEX (MIGRACIÓN COMPLETA)
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-03
+**Duración:** 1 hora
+**Dependencia:** FASE 1
+
+### Objetivo
+Migrar completamente `/index.html` a Astro, creando componentes reutilizables para imagen flotante con texto envolvente y galerías de GIFs.
+
+---
+
+### Punto 2.1: Crear Componente ImageTextContainer.astro
+
+**Archivo creado:**
+- `src/components/ImageTextContainer.astro`
+
+**Código implementado:**
+```astro
+---
+interface Props {
+  imageSrc: string;
+  imageAlt: string;
+  imagePosition?: 'left' | 'right';
+  imageWidth?: number;
+  imageHeight?: number;
+}
+
+const {
+  imageSrc,
+  imageAlt,
+  imagePosition = 'right',
+  imageWidth = 250,
+  imageHeight = 297
+} = Astro.props;
+---
+
+<div class="overflow-auto">
+  <img
+    src={imageSrc}
+    alt={imageAlt}
+    width={imageWidth}
+    height={imageHeight}
+    class={imagePosition === 'left' ? 'float-left mr-5 mb-3' : 'float-right ml-5 mb-3'}
+  />
+  <slot />
+</div>
+```
+
+**Características implementadas:**
+- Props tipadas con TypeScript (línea 2-6)
+- Prop `imagePosition` con valores 'left' | 'right' (default: 'right') (línea 5)
+- Props opcionales para dimensiones de imagen (línea 6-7)
+- Float image con márgenes dinámicos según posición (línea 20)
+- Overflow auto para clearfix (línea 17)
+- Slot para contenido de texto envolvente (línea 22)
+
+**Mapeo CSS → Tailwind:**
+```
+overflow: auto → overflow-auto
+float: left → float-left
+float: right → float-right
+margin-right: 20px → mr-5
+margin-bottom: 15px → mb-3
+```
+
+---
+
+### Punto 2.2: Crear Componente GifGallery.astro
+
+**Archivo creado:**
+- `src/components/GifGallery.astro`
+
+**Código implementado:**
+```astro
+---
+interface Gif {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  gifs: Gif[];
+}
+
+const { gifs } = Astro.props;
+---
+
+<div class="flex gap-5">
+  {gifs.map((gif) => (
+    <img
+      src={gif.src}
+      alt={gif.alt}
+      width={gif.width}
+      height={gif.height}
+    />
+  ))}
+</div>
+```
+
+**Características implementadas:**
+- Interface `Gif` tipada con propiedades necesarias (línea 2-7)
+- Prop `gifs` como array de objetos Gif (línea 9-11)
+- Display flex horizontal (línea 16)
+- Gap de 20px entre imágenes (línea 16)
+- Map sobre array de gifs para renderizado dinámico (línea 17)
+
+**Mapeo CSS → Tailwind:**
+```
+display: flex → flex
+gap: 20px → gap-5
+```
+
+---
+
+### Punto 2.3: Migrar página index.astro
+
+**Archivo creado:**
+- `src/pages/index.astro`
+
+**Código implementado:**
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GifGallery from '../components/GifGallery.astro';
+import ImageTextContainer from '../components/ImageTextContainer.astro';
+
+const pageTitle = 'Dave Chappelle';
+
+const introGifs = [
+  {
+    src: '/imagenes/gif/intro_2.gif',
+    alt: 'gif de la pelicula Robin Hood',
+    width: 200,
+    height: 111
+  },
+  {
+    src: '/imagenes/gif/intro_1.gif',
+    alt: 'gif stand up con Chris Rock',
+    width: 200,
+    height: 113
+  },
+  {
+    src: '/imagenes/gif/intro_3.gif',
+    alt: 'gif de la pelicula De ladron a policia',
+    width: 200,
+    height: 108
+  }
+];
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_1">
+  <section id="sec_1" class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 class="border-b-2 border-red-accent pb-2 mb-4">Introduccion</h2>
+
+    <!-- 3 párrafos de contenido -->
+
+    <GifGallery gifs={introGifs} />
+
+    <ImageTextContainer
+      imageSrc="/imagenes/dave_hbo.jpg"
+      imageAlt="Chapelle presentandose en HBO"
+      imagePosition="right"
+      imageWidth={250}
+      imageHeight={297}
+    >
+      <p class="text-justify">
+        <!-- Contenido de texto que envuelve la imagen -->
+      </p>
+    </ImageTextContainer>
+
+    <!-- Párrafo final -->
+  </section>
+</BaseLayout>
+```
+
+**Características implementadas:**
+- Import de BaseLayout y componentes creados (línea 2-4)
+- Data de GIFs externalizada en constante tipada (línea 8-26)
+- Uso de BaseLayout con props `title` y `activeSection` (línea 29)
+- Section con estilos del plan de migración (línea 30)
+- H2 con borde inferior rojo según mapeo (línea 31)
+- Componente GifGallery con array de 3 GIFs (línea 35)
+- Componente ImageTextContainer con imagen HBO flotante a la derecha (línea 37-48)
+- Enlaces con clases Tailwind para color y hover (text-link-blue hover:underline)
+
+**Mapeo CSS → Tailwind aplicado:**
+```
+section { max-width: 750px; margin: auto; padding: 50px 0px }
+  → class="max-w-[750px] mx-auto py-12 px-4"
+
+h2 { border-bottom: 2px solid #ff0213 }
+  → class="border-b-2 border-red-accent pb-2 mb-4"
+
+text-align: justify
+  → class="text-justify"
+
+Enlaces:
+  color: #8cb4ff → text-link-blue
+  hover: underline → hover:underline
+```
+
+---
+
+## Resumen FASE 2
+
+**Archivos creados:**
+- `src/components/ImageTextContainer.astro` - Componente de imagen flotante con texto envolvente
+- `src/components/GifGallery.astro` - Componente de galería horizontal de GIFs
+- `src/pages/index.astro` - Página principal migrada a Astro
+
+**Estructura de datos:**
+- Array `introGifs` con 3 objetos tipados para la galería de introducción
+
+**Mapeos CSS → Tailwind realizados:**
+- Section: `max-w-[750px] mx-auto py-12 px-4`
+- H2: `border-b-2 border-red-accent pb-2 mb-4`
+- Enlaces: `text-link-blue hover:underline`
+- Float left/right con márgenes dinámicos
+- Flex con gap-5
+
+**Estado:** La FASE 2 está completada exitosamente. La página index.html ha sido migrada completamente a Astro con componentes reutilizables.
+
+---
+
 ## Próximos pasos
 
-**FASE 1:** Layout base y componentes de estructura (Header, Nav, Footer)
-- Duración estimada: 1.5-2 horas
-- Componentes a crear: 5
-- Archivos de datos: 3
+**FASE 3:** Componentes de personajes
+- Duración estimada: 1.5 horas
+- Componentes a crear: 3
+- Archivos de datos: 1
+- Página: chapelle-show.astro

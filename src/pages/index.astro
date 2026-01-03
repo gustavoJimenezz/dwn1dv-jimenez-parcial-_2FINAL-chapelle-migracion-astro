@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GifGallery from '../components/GifGallery.astro';
+import ImageTextContainer from '../components/ImageTextContainer.astro';
+
+const pageTitle = 'Dave Chappelle';
+
+const introGifs = [
+  {
+    src: '/imagenes/gif/intro_2.gif',
+    alt: 'gif de la pelicula Robin Hood',
+    width: 200,
+    height: 111
+  },
+  {
+    src: '/imagenes/gif/intro_1.gif',
+    alt: 'gif stand up con Chris Rock',
+    width: 200,
+    height: 113
+  },
+  {
+    src: '/imagenes/gif/intro_3.gif',
+    alt: 'gif de la pelicula De ladron a policia',
+    width: 200,
+    height: 108
+  }
+];
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_1">
+  <section id="sec_1" class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 class="border-b-2 border-red-accent pb-2 mb-4">Introduccion</h2>
+
+    <p class="mb-4">
+      <strong lang="en">Dave Chappelle</strong> es un comico monologuista y actor de prestigio internacional
+      cuyo estilo irreverente y agudo explora temas sociales como la raza, la cultura popular, el sexo, las drogas, la politica y la
+      fama.
+    </p>
+
+    <p class="mb-4">
+      <strong lang="en">David Khari Webber Chappelle</strong> "Dave" nacio el 24 de agosto de 1973 en
+      <em lang="en">Washington D. C.</em>, es un comediante,
+      guionista, productor de television y cine, actor, artista estadounidense. Chappelle comenzo su carrera
+      en el cine en la pelicula robin <a
+        href="https://www.youtube.com/watch?v=_nSrwbXcDjI&ab_channel=TrailerChan" lang="en"
+        target="_blank"
+        class="text-link-blue hover:underline">Robin Hood: men
+        in tights</a> en 1993 y continuo interpretando
+      pequenos papeles en peliculas como <a
+        href="https://www.youtube.com/watch?v=o3wJ-jzZqBw&ab_channel=MovieclipsClassicTrailers"
+        target="_blank" lang="en"
+        class="text-link-blue hover:underline">The nutty
+        professor</a>, <a href="https://www.youtube.com/watch?v=vYFU0H1I1i0&ab_channel=JoBloMovieTrailers"
+        target="_blank" lang="en"
+        class="text-link-blue hover:underline">Con Air</a> y <a
+        href="https://www.youtube.com/watch?v=TrwRAT5LtoM&ab_channel=MovieclipsClassicTrailers"
+        target="_blank" lang="en"
+        class="text-link-blue hover:underline">Blue
+        Streak</a>. Su primer papel
+      como protagonista en una pelicula fue en <a
+        href="https://www.youtube.com/watch?v=HMhUnO2u6qI&ab_channel=MovieclipsClassicTrailers"
+        target="_blank" lang="en"
+        class="text-link-blue hover:underline">Half
+        Baked</a>.
+    </p>
+
+    <GifGallery gifs={introGifs} />
+
+    <p class="mb-4 mt-4">
+      Los padres de Chappelle eran profesores: su padre, <strong lang="en">William</strong>, ensenaba en <em
+        lang="en">Antioch
+        College</em> en <em lang="en">Yellow Springs</em>, <em lang="en">Ohio</em>, y su madre,
+      <strong lang="en">Yvonne</strong>, trabajaba como profesora. en la Universidad de <em
+        lang="en">Howard</em> y luego
+      en la
+      Universidad de <em lang="en">Maryland</em>, mientras tambien servia como ministro unitario. Los
+      padres de
+      Chappelle se
+      separaron cuando "Dave" tenia 6.
+    </p>
+
+    <ImageTextContainer
+      imageSrc="/imagenes/dave_hbo.jpg"
+      imageAlt="Chapelle presentandose en HBO"
+      imagePosition="right"
+      imageWidth={250}
+      imageHeight={297}
+    >
+      <p class="text-justify">
+        El escenario del <strong lang="en">stand-up</strong> fue donde Chappelle tuvo
+        un impacto
+        significativo por primera
+        vez en el
+        panorama cultural. Su material a menudo incluia tomas sin restricciones sobre la raza y la sociedad,
+        pero de ninguna manera era el tipico comediante enojado en la linea de <a
+        href="https://es.wikipedia.org/wiki/Lenny_Bruce" target="_blank" lang="en"
+        class="text-link-blue hover:underline">Lenny Bruce</a> o <a
+        href="https://es.wikipedia.org/wiki/Bill_Hicks" target="_blank" lang="en"
+        class="text-link-blue hover:underline">Bill Hicks</a>, ya que
+        Chappelle suavizo sus puas al contar sus bromas de una manera traviesa y con una sonrisa ironica. A
+        principios del siglo XXI, se habia establecido como uno de los comediantes de <strong>stand-up</strong>
+        mas venerados de
+        su generacion, y su primer especial de <strong lang="en">stand-up</strong> de una hora, <strong
+        lang="en">Dave
+        Chappelle</strong>:
+        <a href="https://www.youtube.com/watch?v=9u3AF3Xp6Nk&t=2s&ab_channel=FrancoEsteban" target="_blank"
+        lang="en"
+        class="text-link-blue hover:underline">Killin' Them
+        Softly</a>, se
+        emitio en 2000 en <a href="https://www.hbolatam.com/us" target="_blank"
+        class="text-link-blue hover:underline">HBO</a>.
+      </p>
+    </ImageTextContainer>
+
+    <p class="mb-4">
+      En 2003, alcanzo el exito con la popular serie televisiva tipo comedia "sketch", <a
+        href="https://www.netflix.com/ar/title/70142413" target="_blank"
+        class="text-link-blue hover:underline">Chappelle's
+        Show</a>, antes
+      de abandonar abruptamente el popular programa en visperas de su tercera temporada.
+      <strong>Chappelle</strong> reanudo sus
+      giras como comediante en 2013 y luego entrego una serie de aclamados especiales para
+      <strong>Netflix</strong>.
+    </p>
+  </section>
+</BaseLayout>
