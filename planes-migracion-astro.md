@@ -127,10 +127,6 @@ h1 { font-weight: 300; font-size: 3.5em } → font-light text-[3.5em]
 - Datos externos: `/src/data/author.ts`, `/src/data/sources.ts`
 - 99% idéntico (corregir inconsistencia en filmografia.html)
 
-**1.5 Crear Botón Volver** (`/src/components/BackToTop.astro`)
-- Props: `targetId`
-- Fixed bottom-right
-
 **Archivos creados:**
 - 5 componentes + 3 archivos de datos
 
