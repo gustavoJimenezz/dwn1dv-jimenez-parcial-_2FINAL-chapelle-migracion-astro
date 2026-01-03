@@ -1,0 +1,30 @@
+---
+import { author } from '../data/author';
+import { sources } from '../data/sources';
+---
+
+<footer class="bg-black border-t-[3px] border-red-accent text-base">
+  <div class="overflow-auto max-w-[750px] mx-auto">
+    <img
+      src={author.image}
+      alt="perfil del autor de frente"
+      width="250"
+      height="249"
+      class="block float-left w-[250px] rounded-[10px] m-2.5"
+    >
+    <ul class="list-none my-10 mx-auto">
+      <li class="text-center m-0 border-0">{author.name}</li>
+      <li class="text-center m-0 border-0">{author.birthdate}</li>
+      <li class="text-center m-0 border-0">{author.email}</li>
+    </ul>
+    <ul class="list-none my-10 mx-auto">
+      {sources.map((source) => (
+        <li class="text-center m-0 border-0">
+          <a href={source.url} target="_blank" rel="noopener noreferrer" class="no-underline text-link-blue">
+            {source.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</footer>
