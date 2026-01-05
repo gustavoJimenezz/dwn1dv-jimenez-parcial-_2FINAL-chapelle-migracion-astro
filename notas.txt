@@ -1,0 +1,4 @@
+agregar permisos de lectura y escritura de archivos
+agregar permisos git
+
+especificar que los cambios los agregue en un propio entorno worktree

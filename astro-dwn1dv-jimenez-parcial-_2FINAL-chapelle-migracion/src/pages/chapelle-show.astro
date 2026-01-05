@@ -5,30 +5,42 @@ import CharacterGifGallery from '../components/CharacterGifGallery.astro';
 import { characters } from '../data/characters';
 
 const pageTitle = "Chappelle's Show - Dave Chappelle";
+
+const verticalGifs = [
+  { src: '/imagenes/gif/carter.gif', alt: 'gif de Tron Carter', width: 200, height: 149 },
+  { src: '/imagenes/gif/lil_jon.gif', alt: 'gif de Lil jon', width: 200, height: 149 },
+  { src: '/imagenes/gif/leonard.gif', alt: 'gif de Leonard', width: 200, height: 163 }
+];
+
+const groupGifs = [
+  { src: '/imagenes/gif/tyrone.gif', alt: 'gif de Tayrone', width: 470, height: 353 },
+  { src: '/imagenes/gif/confused.gif', alt: 'gif escena de confisión', width: 200, height: 150 },
+  { src: '/imagenes/gif/taylor.gif', alt: 'gif de Taylor', width: 200, height: 155 }
+];
 ---
 
 <BaseLayout title={pageTitle} activeSection="sec_3">
   <section id="sec_3" class="max-w-[750px] mx-auto py-12 px-4">
-    <h2 class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent" lang="en">
+    <h2 lang="en" class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent">
       Chappelle's Show
     </h2>
-
-    <img
-      src="/imagenes/chappelles-show-logo.png"
-      alt="logo del show"
-      width="700"
+    
+    <img 
+      src="/imagenes/chappelles-show-logo.png" 
+      alt="logo del show" 
+      class="w-full max-w-[700px] h-auto mb-6"
+      width="700" 
       height="271"
-      class="w-full max-w-[700px] mb-6"
     />
-
-    <p class="mb-6 text-justify leading-7">
-      Chappelle creo en 2003 la comedia <a
-        href="https://www.netflix.com/ar/title/70142413"
+    
+    <p class="leading-7 mb-6 text-justify">
+      Chappelle creo en 2003 la comedia <a 
+        href="https://www.netflix.com/ar/title/70142413" 
         target="_blank"
         class="text-link-blue hover:underline"
       >Chappelle's Show</a>, presentando el programa y
-      protagonizando la mayoria de sus sketches. Junto a <a
-        href="https://en.wikipedia.org/wiki/Neal_Brennan"
+      protagonizando la mayoria de sus sketches. Junto a <a 
+        href="https://en.wikipedia.org/wiki/Neal_Brennan" 
         target="_blank"
         class="text-link-blue hover:underline"
       >Neal Brennan</a> y <a
@@ -37,219 +49,224 @@ const pageTitle = "Chappelle's Show - Dave Chappelle";
         class="text-link-blue hover:underline"
       >Michele Armour</a> fueron los productores
       ejecutivos del programa. La serie se estreno el 22 de enero de 2003 en la cadena de television por
-      cable estadounidense <a
-        href="https://en.wikipedia.org/wiki/Comedy_Central"
+      cable estadounidense <a 
+        href="https://en.wikipedia.org/wiki/Comedy_Central" 
         target="_blank"
         class="text-link-blue hover:underline"
-      >Comedy Central</a> y cuenta con 2 temporadas. El programa
-      obtuvo tres nominaciones al Emmy y se convirtio en el programa de television mas vendido en la
+      >Comedy Central</a> y cuenta con 2 temporadas. El
+      programa obtuvo tres nominaciones al Emmy y se convirtio en el programa de television mas vendido en la
       historia del <abbr title="Digital Versatile Disc">DVD</abbr>.
     </p>
 
-    <h3 class="text-2xl font-light mb-4 mt-8">Personajes</h3>
+    <h3 class="text-2xl font-semibold mb-4 mt-8">Personajes</h3>
 
-    <CharacterGifGallery />
+    <CharacterGifGallery verticalGifs={verticalGifs} groupGifs={groupGifs} />
 
-    <div class="personajes">
+    <div class="space-y-8">
       {characters.map((character) => (
         <CharacterCard character={character} />
       ))}
     </div>
 
-    <h3 class="text-2xl font-light mb-4 mt-8">Estrellas invitadas</h3>
+    <h3 class="text-2xl font-semibold mb-4 mt-8">Estrellas invitadas</h3>
 
-    <p class="mb-6 text-justify leading-7">
+    <p class="leading-7 mb-6 text-justify">
       Muchas estrellas invitadas han aparecido en el programa, incluidos los coprotagonistas de <a
-        href="https://en.wikipedia.org/wiki/Half_Baked"
-        target="_blank"
+        href="https://en.wikipedia.org/wiki/Half_Baked" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Half Baked</a>, <a
-        href="https://en.wikipedia.org/wiki/Guillermo_D%C3%ADaz_(actor)"
+        href="https://en.wikipedia.org/wiki/Guillermo_D%C3%ADaz_(actor)" 
         target="_blank"
         class="text-link-blue hover:underline"
-      >Guillermo Diaz</a>, <a
-        href="https://en.wikipedia.org/wiki/Jim_Breuer"
-        target="_blank"
+      >Guillermo Diaz</a>,
+      <a 
+        href="https://en.wikipedia.org/wiki/Jim_Breuer" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Jim Breuer</a> y <a
-        href="https://en.wikipedia.org/wiki/Snoop_Dogg"
-        target="_blank"
+        href="https://en.wikipedia.org/wiki/Snoop_Dogg" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Snoop Dogg</a>; <a
-        href="https://es.wikipedia.org/wiki/RZA"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/RZA" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >RZA</a>, <a
-        href="https://es.wikipedia.org/wiki/GZA"
-        target="_blank"
+      >RZA</a>,
+      <a 
+        href="https://es.wikipedia.org/wiki/GZA" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >GZA</a> y <a
-        href="https://es.wikipedia.org/wiki/Wu-Tang_Clan"
-        target="_blank"
+      >GZA</a> y <a 
+        href="https://es.wikipedia.org/wiki/Wu-Tang_Clan" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Method Man</a> de <a
-        href="https://es.wikipedia.org/wiki/Wu-Tang_Clan"
-        target="_blank"
+      >Method Man</a>
+      de <a 
+        href="https://es.wikipedia.org/wiki/Wu-Tang_Clan" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Wu-Tang Clan</a>, <a
-        href="https://es.wikipedia.org/wiki/Rick_James"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Rick_James" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Rick James</a>, <a
-        href="https://es.wikipedia.org/wiki/Damon_Dash"
-        target="_blank"
+      >Rick James</a>, <a 
+        href="https://es.wikipedia.org/wiki/Damon_Dash" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Damon Dash</a>, <a
-        href="https://es.wikipedia.org/wiki/Redman"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Redman" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Redman</a>, <a
-        href="https://es.wikipedia.org/wiki/Ice_T"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Ice_T" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Ice-T</a>, <a
-        href="https://es.wikipedia.org/wiki/Arsenio_Hall"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Arsenio_Hall" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Arsenio Hall</a>, <a
-        href="https://es.wikipedia.org/wiki/Wayne_Brady"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Wayne_Brady" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Wayne Brady</a> (el unico invitado que aparecio en el escenario), <a
-        href="https://es.wikipedia.org/wiki/Mos_Def"
-        target="_blank"
+      >Wayne Brady</a> (el unico invitado que aparecio en el escenario), <a 
+        href="https://es.wikipedia.org/wiki/Mos_Def" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Mos Def</a> (quien tambien fue un invitado musical), <a
-        href="https://es.wikipedia.org/wiki/Eddie_Griffin_(actor)"
-        target="_blank"
+      >Mos Def</a> (quien tambien fue un invitado musical),
+      <a 
+        href="https://es.wikipedia.org/wiki/Eddie_Griffin_(actor)" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Eddie Griffin</a>, <a
-        href="https://es.wikipedia.org/wiki/Susan_Sarandon"
-        target="_blank"
+      >Eddie Griffin</a>, <a 
+        href="https://es.wikipedia.org/wiki/Susan_Sarandon" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Susan Sarandon</a>, <a
-        href="https://es.wikipedia.org/wiki/Q-Tip"
-        target="_blank"
+      >Susan Sarandon</a>, <a 
+        href="https://es.wikipedia.org/wiki/Q-Tip" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Q-Tip</a>, <a
-        href="https://es.wikipedia.org/wiki/Rashida_Jones"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Rashida_Jones" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Rashida Jones</a>, <a
-        href="https://es.wikipedia.org/wiki/Jamie_Foxx"
-        target="_blank"
+      >Rashida Jones</a>, <a 
+        href="https://es.wikipedia.org/wiki/Jamie_Foxx" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Jamie Foxx</a>, <a
-        href="https://es.wikipedia.org/wiki/Carson_Daly"
-        target="_blank"
+      >Jamie Foxx</a>, <a 
+        href="https://es.wikipedia.org/wiki/Carson_Daly" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Carson Daly</a>, <a
-        href="https://es.wikipedia.org/wiki/Ron_Jeremy"
-        target="_blank"
+      >Carson Daly</a>, <a 
+        href="https://es.wikipedia.org/wiki/Ron_Jeremy" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Ron Jeremy</a>, <a
-        href="https://es.wikipedia.org/wiki/Bill_Burr"
-        target="_blank"
+      >Ron Jeremy</a>, <a 
+        href="https://es.wikipedia.org/wiki/Bill_Burr" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Bill Burr</a>, <a
-        href="https://es.wikipedia.org/wiki/Patrice_O%E2%80%99Neal"
-        target="_blank"
+      >Bill Burr</a>,
+      <a 
+        href="https://es.wikipedia.org/wiki/Patrice_O%E2%80%99Neal" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Patrice O'Neal</a>, <a
-        href="https://es.wikipedia.org/wiki/Spike_Lee"
-        target="_blank"
+      >Patrice O'Neal</a>, <a 
+        href="https://es.wikipedia.org/wiki/Spike_Lee" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Spike Lee</a>, <a
-        href="https://es.wikipedia.org/wiki/Michael_Rapaport"
-        target="_blank"
+      >Spike Lee</a>, <a 
+        href="https://es.wikipedia.org/wiki/Michael_Rapaport" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
-      >Michael Rapaport</a> and <a
-        href="https://es.wikipedia.org/wiki/Joe_Rogan"
-        target="_blank"
+      >Michael Rapaport</a> and <a 
+        href="https://es.wikipedia.org/wiki/Joe_Rogan" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Joe Rogan</a>.
     </p>
 
-    <p class="mb-6 text-justify leading-7">
-      Los invitados musicales incluyen <a
-        href="https://www.wikiwand.com/en/De_La_Soul"
+    <p class="leading-7 mb-6 text-justify">
+      Los invitados musicales incluyen <a 
+        href="https://www.wikiwand.com/en/De_La_Soul" 
         target="_blank"
         lang="en"
         class="text-link-blue hover:underline"
-      >De La Soul</a>, <a
-        href="https://es.wikipedia.org/wiki/Ludacris"
+      >De La Soul</a>, <a 
+        href="https://es.wikipedia.org/wiki/Ludacris" 
         target="_blank"
         lang="en"
         class="text-link-blue hover:underline"
-      >Ludacris</a>, <a
-        href="https://en.wikipedia.org/wiki/Robert_Petkoff"
+      >Ludacris</a>, <a 
+        href="https://en.wikipedia.org/wiki/Robert_Petkoff" 
         target="_blank"
         lang="en"
         class="text-link-blue hover:underline"
-      >Robert Petkoff</a>, <a
-        href="https://es.wikipedia.org/wiki/Talib_Kweli"
+      >Robert Petkoff</a>, <a 
+        href="https://es.wikipedia.org/wiki/Talib_Kweli" 
         target="_blank"
         lang="en"
         class="text-link-blue hover:underline"
-      >Talib Kweli</a>, <a
-        href="https://es.wikipedia.org/wiki/Big_L"
+      >Talib Kweli</a>, <a 
+        href="https://es.wikipedia.org/wiki/Big_L" 
         target="_blank"
         lang="en"
         class="text-link-blue hover:underline"
-      >Fat Joe</a>, <a
-        href="https://es.wikipedia.org/wiki/Wyclef_Jean"
+      >Fat Joe</a>, <a 
+        href="https://es.wikipedia.org/wiki/Wyclef_Jean" 
         target="_blank"
         lang="en"
         class="text-link-blue hover:underline"
-      >Wyclef Jean</a>, <a
-        href="https://es.wikipedia.org/wiki/Killer_Mike"
-        target="_blank"
+      >Wyclef Jean</a>, <a 
+        href="https://es.wikipedia.org/wiki/Killer_Mike" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Killer Mike</a>, <a
-        href="https://es.wikipedia.org/wiki/Big_Boi"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Big_Boi" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Big Boi of OutKast</a>, <a
-        href="https://es.wikipedia.org/wiki/Kanye_West"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Kanye_West" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Kanye West</a>, <a
-        href="https://es.wikipedia.org/wiki/DMX_(rapero)"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/DMX_(rapero)" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >DMX</a> y <a
-        href="https://es.wikipedia.org/wiki/Lil_Jon"
-        target="_blank"
+        href="https://es.wikipedia.org/wiki/Lil_Jon" 
+        target="_blank" 
         lang="en"
         class="text-link-blue hover:underline"
       >Lil Jon</a> entro otros artistas.

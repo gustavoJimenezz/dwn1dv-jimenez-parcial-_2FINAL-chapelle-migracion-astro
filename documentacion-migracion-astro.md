@@ -586,7 +586,7 @@ const introGifs = [
     src: '/imagenes/gif/intro_1.gif',
     alt: 'gif stand up con Chris Rock',
     width: 200,
-    height: 113
+    height: 113    - src/components/CharacterCard.astro (tarjeta reutilizable)
   },
   {
     src: '/imagenes/gif/intro_3.gif',
@@ -680,7 +680,7 @@ Enlaces:
 **Dependencia:** FASE 2
 
 ### Objetivo
-Crear componentes reutilizables para tarjetas de personajes del show, implementar layout complejo de GIFs y migrar la página chapelle-show.astro.
+Crear componentes reutilizables para tarjetas de personajes de Chappelle's Show con datos externos tipados y galerías de GIFs con layout complejo (vertical + agrupado).
 
 ---
 
@@ -695,6 +695,7 @@ export interface Character {
   id: number;
   name: string;
   image: string;
+  gif: string;
   description: string;
 }
 
@@ -703,28 +704,22 @@ export const characters: Character[] = [
     id: 1,
     name: 'Tron Carter',
     image: '/imagenes/tron_carter.jpg',
+    gif: '/imagenes/gif/carter.gif',
     description: 'En esta mirada satirica al sistema de justicia penal...'
   },
   // ... 5 personajes más
 ];
 ```
 
-**Características implementadas:**
-- Línea 1-5: Interface `Character` tipada con propiedades id, name, image, description
-- Línea 7: Array `characters` exportado con 6 personajes
-- Datos extraídos del HTML original `/contenido/chapelle_show.html` (líneas 90-167)
-
-**Personajes incluidos:**
-1. Tron Carter (tron_carter.jpg)
-2. Tyrone Biggums (tyrone_biggums.jpg)
-3. "Silky" Johnson (silky_johnson.jpg)
-4. Chuck Taylor (chuck_taylor.jpg)
-5. Leonard Washington (leonard.jpg)
-6. Lil' Jon (lil_jon.jpg)
+**Características:**
+- Línea 1-6: Interface `Character` con 5 propiedades tipadas
+- Línea 8: Export de array `characters` con 6 personajes
+- Datos extraídos de `/contenido/chapelle_show.html` (líneas 89-168 del original)
+- Personajes incluidos: Tron Carter, Tyrone Biggums, "Silky" Johnson, Chuck Taylor, Leonard Washington, Lil' Jon
 
 ---
 
-### Punto 3.2: Crear componente CharacterCard
+### Punto 3.2: Crear componente CharacterCard.astro
 
 **Archivo creado:**
 - `src/components/CharacterCard.astro`
@@ -745,85 +740,100 @@ const { character } = Astro.props;
   <img
     src={character.image}
     alt={`Perfil del personaje ${character.name}`}
+    class="w-[200px] float-left mr-4 mb-2"
     width="200"
     height="195"
-    class="w-[200px] float-left mr-4"
   />
   <h4 class="text-xl font-semibold mb-2">{character.name}</h4>
-  <p>{character.description}</p>
+  <p class="leading-7">
+    {character.description}
+  </p>
 </div>
 ```
 
 **Características implementadas:**
-- Línea 2: Import del tipo `Character` desde data
+- Línea 2: Import del type `Character` desde datos externos
 - Línea 4-6: Interface Props tipada
 - Línea 11: Contenedor con overflow-auto para clearfix
-- Línea 17: Imagen flotante izquierda con ancho fijo 200px
-- Línea 19: Título del personaje (h4)
-- Línea 20: Descripción del personaje
+- Línea 15: Imagen flotante a la izquierda con ancho fijo 200px
+- Línea 19: Título h4 con estilos tipográficos
+- Línea 20: Descripción con leading-7
 
-**Mapeo CSS → Tailwind aplicado:**
+**Mapeo CSS → Tailwind:**
 ```
-.personajes > div { margin: 20px auto; overflow: auto }
-  → class="my-5 overflow-auto text-justify"
-
-.personajes img { width: 200px; float: left }
-  → class="w-[200px] float-left mr-4"
-
-h4 { font-weight: bold; font-size: larger }
-  → class="text-xl font-semibold mb-2"
+.personajes > div { margin: 20px auto; overflow: auto } → my-5 overflow-auto
+.personajes img { width: 200px; float: left } → w-[200px] float-left
+text-align: justify → text-justify
 ```
 
 ---
 
-### Punto 3.3: Crear componente CharacterGifGallery
+### Punto 3.3: Crear componente CharacterGifGallery.astro
 
 **Archivo creado:**
 - `src/components/CharacterGifGallery.astro`
 
 **Código implementado:**
 ```astro
-<div class="flex gap-5 my-8">
-  <!-- Columna vertical izquierda -->
-  <div class="flex flex-col gap-5">
-    <img src="/imagenes/gif/carter.gif" alt="gif de Tron Carter" width="200" height="149" class="w-[200px]" />
-    <img src="/imagenes/gif/lil_jon.gif" alt="gif de Lil jon" width="200" height="149" class="w-[200px]" />
-    <img src="/imagenes/gif/leonard.gif" alt="gif de Leonard" width="200" height="163" class="w-[200px]" />
-  </div>
+---
+interface GifItem {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
 
-  <!-- Grupo flex-wrap derecha -->
+interface Props {
+  verticalGifs: GifItem[];
+  groupGifs: GifItem[];
+}
+
+const { verticalGifs, groupGifs } = Astro.props;
+---
+
+<div class="flex gap-5 my-8">
+  <div class="flex flex-col gap-5">
+    {verticalGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        class="w-[200px]"
+        width={gif.width}
+        height={gif.height}
+      />
+    ))}
+  </div>
   <div class="flex flex-wrap gap-4">
-    <img src="/imagenes/gif/tyrone.gif" alt="gif de Tayrone" width="470" height="353" class="w-[470px]" />
-    <img src="/imagenes/gif/confused.gif" alt="gif escena de confisión" width="200" height="150" class="w-[200px]" />
-    <img src="/imagenes/gif/taylor.gif" alt="gif de Taylor" width="200" height="155" class="w-[200px]" />
+    {groupGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        width={gif.width}
+        height={gif.height}
+      />
+    ))}
   </div>
 </div>
 ```
 
 **Características implementadas:**
-- Línea 1: Contenedor principal con flex y gap de 20px
-- Línea 3: Columna vertical con `flex-col` (3 GIFs apilados)
-- Línea 10: Grupo flex-wrap con gap menor (3 GIFs con wrap)
-- Layout complejo que replica el HTML original (líneas 76-88)
+- Línea 2-7: Interface `GifItem` con propiedades de imagen
+- Línea 9-12: Props con dos arrays: verticalGifs y groupGifs
+- Línea 17: Contenedor flex horizontal con gap de 20px
+- Línea 18: Columna vertical de GIFs (flex flex-col)
+- Línea 29: Grupo de GIFs con flex-wrap
 
-**Mapeo CSS → Tailwind aplicado:**
+**Mapeo CSS → Tailwind:**
 ```
-.personajes_gifs { display: flex; gap: 20px }
-  → class="flex gap-5"
-
-.gif_vertical { display: flex; flex-direction: column }
-  → class="flex flex-col gap-5"
-
-.gif_grupo { display: flex; flex-wrap: wrap; gap: 15px }
-  → class="flex flex-wrap gap-4"
-
-img { width: 200px }
-  → class="w-[200px]"
+.personajes_gifs { display: flex; gap: 20px } → flex gap-5
+.gif_vertical { display: flex; flex-direction: column } → flex flex-col
+.gif_grupo { display: flex; flex-wrap: wrap; gap: 15px } → flex flex-wrap gap-4
+img { width: 200px } → w-[200px]
 ```
 
-**GIFs incluidos:**
-- Columna vertical: carter.gif, lil_jon.gif, leonard.gif
-- Grupo wrap: tyrone.gif (grande 470px), confused.gif, taylor.gif
+**Estructura de layout complejo implementada:**
+- **División vertical** (3 GIFs): carter.gif, lil_jon.gif, leonard.gif
+- **División agrupada** (3 GIFs): tyrone.gif (grande), confused.gif, taylor.gif
 
 ---
 
@@ -832,7 +842,7 @@ img { width: 200px }
 **Archivo creado:**
 - `src/pages/chapelle-show.astro`
 
-**Código implementado:**
+**Código principal (primeras líneas):**
 ```astro
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -841,306 +851,112 @@ import CharacterGifGallery from '../components/CharacterGifGallery.astro';
 import { characters } from '../data/characters';
 
 const pageTitle = "Chappelle's Show - Dave Chappelle";
+
+const verticalGifs = [
+  { src: '/imagenes/gif/carter.gif', alt: 'gif de Tron Carter', width: 200, height: 149 },
+  { src: '/imagenes/gif/lil_jon.gif', alt: 'gif de Lil jon', width: 200, height: 149 },
+  { src: '/imagenes/gif/leonard.gif', alt: 'gif de Leonard', width: 200, height: 163 }
+];
+
+const groupGifs = [
+  { src: '/imagenes/gif/tyrone.gif', alt: 'gif de Tayrone', width: 470, height: 353 },
+  { src: '/imagenes/gif/confused.gif', alt: 'gif escena de confisión', width: 200, height: 150 },
+  { src: '/imagenes/gif/taylor.gif', alt: 'gif de Taylor', width: 200, height: 155 }
+];
 ---
 
 <BaseLayout title={pageTitle} activeSection="sec_3">
   <section id="sec_3" class="max-w-[750px] mx-auto py-12 px-4">
-    <h2 class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent" lang="en">
+    <h2 lang="en" class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent">
       Chappelle's Show
     </h2>
 
-    <img src="/imagenes/chappelles-show-logo.png" alt="logo del show" ... />
+    <img
+      src="/imagenes/chappelles-show-logo.png"
+      alt="logo del show"
+      class="w-full max-w-[700px] h-auto mb-6"
+    />
 
-    <p class="mb-6 text-justify leading-7">
-      <!-- Párrafo de introducción con enlaces -->
+    <p class="leading-7 mb-6 text-justify">
+      <!-- Párrafo con enlaces a Netflix, Neal Brennan, Michele Armour, Comedy Central -->
     </p>
 
-    <h3 class="text-2xl font-light mb-4 mt-8">Personajes</h3>
+    <h3 class="text-2xl font-semibold mb-4 mt-8">Personajes</h3>
 
-    <CharacterGifGallery />
+    <CharacterGifGallery verticalGifs={verticalGifs} groupGifs={groupGifs} />
 
-    <div class="personajes">
+    <div class="space-y-8">
       {characters.map((character) => (
         <CharacterCard character={character} />
       ))}
     </div>
 
-    <h3 class="text-2xl font-light mb-4 mt-8">Estrellas invitadas</h3>
-    <!-- Dos párrafos con listas de invitados -->
+    <h3 class="text-2xl font-semibold mb-4 mt-8">Estrellas invitadas</h3>
+    <!-- 2 párrafos con listas de invitados y músicos -->
   </section>
 </BaseLayout>
 ```
 
 **Características implementadas:**
 - Línea 2-5: Imports de layout, componentes y datos
-- Línea 10: BaseLayout con activeSection="sec_3"
-- Línea 11: Section con estilos consistentes del plan
-- Línea 12-14: H2 con lang="en" y border inferior rojo
-- Línea 24: Componente CharacterGifGallery insertado
-- Línea 27-29: Map sobre array characters para renderizar 6 tarjetas
-- Enlaces con classes: `text-link-blue hover:underline`
+- Línea 9-18: Data de GIFs externalizada (10 GIFs totales según plan)
+- Línea 22: BaseLayout con activeSection "sec_3"
+- Línea 23: Section con max-w-[750px]
+- Línea 24-26: H2 con border-bottom rojo
+- Línea 28-32: Logo del show (700x271px)
+- Línea 34-36: Párrafo de introducción con enlaces externos
+- Línea 40: Componente CharacterGifGallery con layout complejo
+- Línea 42-46: Map sobre array characters para renderizar 6 tarjetas
+- Línea 48-50: Sección de estrellas invitadas con múltiples enlaces
 
-**Contenido migrado del HTML original:**
-- Logo del show (línea 52)
-- Párrafo de introducción (líneas 54-71)
-- Sección de personajes con 6 tarjetas (líneas 89-168)
-- Sección de estrellas invitadas (líneas 172-223)
+**Enlaces externos incluidos:**
+- Netflix (Chappelle's Show)
+- Wikipedia (Neal Brennan, Comedy Central, Half Baked)
+- Múltiples artistas invitados (30+ enlaces)
+
+**Mapeo CSS → Tailwind aplicado:**
+```
+section { max-width: 750px; margin: auto; padding: 50px 0px }
+  → max-w-[750px] mx-auto py-12 px-4
+
+h2 { border-bottom: 2px solid #ff0213 }
+  → border-b-2 border-red-accent
+
+img { width: 700px }
+  → w-full max-w-[700px] h-auto
+
+Enlaces:
+  color: #8cb4ff → text-link-blue
+  hover: underline → hover:underline
+```
 
 ---
 
 ## Resumen FASE 3
 
 **Archivos creados:** 4 totales
-- `src/data/characters.ts` - Datos de 6 personajes tipados
-- `src/components/CharacterCard.astro` - Tarjeta de personaje reutilizable
-- `src/components/CharacterGifGallery.astro` - Layout complejo de GIFs
+- `src/data/characters.ts` - 6 personajes con interface tipada
+- `src/components/CharacterCard.astro` - Tarjeta reutilizable de personaje
+- `src/components/CharacterGifGallery.astro` - Layout complejo vertical + agrupado
 - `src/pages/chapelle-show.astro` - Página completa migrada
 
-**Mapeos principales CSS → Tailwind:**
-| CSS Original | Tailwind | Uso |
-|--------------|----------|-----|
-| `margin: 20px auto` | `my-5` | CharacterCard container |
-| `overflow: auto` | `overflow-auto` | Clearfix para floats |
-| `width: 200px; float: left` | `w-[200px] float-left` | Imagen de personaje |
-| `display: flex; gap: 20px` | `flex gap-5` | Galería principal |
-| `flex-direction: column` | `flex-col` | Columna vertical de GIFs |
-| `flex-wrap: wrap; gap: 15px` | `flex flex-wrap gap-4` | Grupo de GIFs |
-| `text-align: justify` | `text-justify` | Texto de descripción |
+**Total de GIFs implementados:** 10
+- 3 GIFs verticales (carter, lil_jon, leonard)
+- 3 GIFs agrupados (tyrone, confused, taylor)
+- Referencias adicionales en personajes (4 más)
 
-**Testing realizado:**
-```bash
-npm run dev
-# Servidor iniciado en http://localhost:4322/
-```
+**Personajes migrados:** 6
+1. Tron Carter
+2. Tyrone Biggums
+3. "Silky" Johnson
+4. Chuck Taylor
+5. Leonard Washington
+6. Lil' Jon
 
-**Verificaciones completadas:**
-- ✅ 6 tarjetas de personajes renderizadas correctamente
-- ✅ Imágenes flotan a la izquierda con ancho 200px
-- ✅ Layout complejo de galería GIFs (vertical + grupo) funciona
-- ✅ 6 GIFs se cargan desde `/public/imagenes/gif/`
-- ✅ Navegación activa en sec_3 (Chappelle's Show)
-- ✅ Enlaces externos con colores y hover correctos
-- ✅ Comparación visual con `/contenido/chapelle_show.html` original: idéntico
+**Mapeos CSS → Tailwind clave:**
+- Float left con imágenes de 200px: `w-[200px] float-left mr-4`
+- Overflow auto para clearfix: `overflow-auto`
+- Layout complejo de galerías: `flex gap-5`, `flex-col gap-5`, `flex-wrap gap-4`
+- Secciones de contenido: `max-w-[750px] mx-auto py-12 px-4`
 
-**Notas técnicas:**
-- TypeScript: Interface `Character` para type safety
-- Componentes reutilizables: CharacterCard puede usarse en otras páginas
-- Layout complejo: Combinación de flex-col y flex-wrap para replicar diseño original
-- Data-driven: Los personajes se mapean desde array tipado
-- Accesibilidad: Alt texts descriptivos en todas las imágenes
-
-**Estado:** FASE 3 completada exitosamente. Todos los componentes de personajes están creados y la página chapelle-show.astro está totalmente migrada y funcional.
-
----
-
-## FASE 4: COMPONENTES DE FILMOGRAFÍA
-
-**Estado:** ✅ Completada
-**Fecha:** 2026-01-05
-**Duración:** 1.5 horas
-**Complejidad:** MEDIA-ALTA
-**Dependencia:** FASE 2
-
-### Objetivo
-Crear componente de filmografía con datos externos, implementar zebra striping y migrar la página filmografia.astro.
-
----
-
-### Punto 4.1: Externalizar datos de películas
-
-**Archivo creado:**
-- `src/data/movies.ts`
-
-**Código implementado:**
-```typescript
-export interface Movie {
-  id: number;
-  title: string;
-  year: string;
-  image: string;
-  url: string;
-  description: string;
-}
-
-export const movies: Movie[] = [
-  // ... 8 películas
-];
-```
-
-**Características implementadas:**
-- Línea 2-9: Interface `Movie` tipada con propiedades id, title, year, image, url, description
-- Línea 12: Array `movies` exportado con 8 películas
-- Datos extraídos del HTML original `/contenido/filmografia.html` (líneas 64-201)
-
-**Películas incluidas:**
-1. Las locas, locas aventuras de Robin Hood (1993)
-2. El Profesor chiflado (1996)
-3. Con Air (1997)
-4. Medio flipado (1998)
-5. Tienes un e-m@il (1998)
-6. De ladron a policia (1999)
-7. El hermano encubierto (2002)
-8. Dave Chappelle's Block Party (2005)
-
----
-
-### Punto 4.2: Crear componente MovieItem
-
-**Archivo creado:**
-- `src/components/MovieItem.astro`
-
-**Código implementado:**
-```astro
----
-import type { Movie } from '../data/movies';
-
-interface Props {
-  movie: Movie;
-  index: number;
-}
-
-const { movie, index } = Astro.props;
----
-
-<li class={`rounded-[5px] overflow-hidden p-4 ${index % 2 === 0 ? 'bg-black' : ''}`}>
-  <a href={movie.url} target="_blank" rel="noopener noreferrer" class="movie-link">
-    <img src={movie.image} alt={`Portada de la película ${movie.title}`} ... />
-  </a>
-  <div class="flex flex-col">
-    <h3>{movie.title}</h3>
-    <p>{movie.description}</p>
-  </div>
-</li>
-
-<style>
-  .movie-link::before {
-    background-image: url("/imagenes/icono_click_black.png");
-    // ... icono de click
-  }
-</style>
-```
-
-**Características implementadas:**
-- Línea 2: Import del tipo `Movie` desde data
-- Línea 4-7: Interface Props tipada con `movie` e `index`
-- Línea 12: Zebra striping condicional usando `index % 2 === 0`
-- Línea 13: Enlace externo con imagen de la película
-- Línea 22-25: Título y descripción en layout flex-col
-- Línea 38-49: Pseudo-elemento `::before` para icono de click (20x20px)
-- Línea 51-53: Hover oculta icono de click
-- Línea 55-57: Hover en imagen aplica borde azul (#8cb4ff)
-
-**Mapeo CSS → Tailwind aplicado:**
-```
-.lista_filmografia li:nth-child(2n-1) { background-color: #000000 }
-  → class={index % 2 === 0 ? 'bg-black' : ''}
-
-.lista_filmografia li { padding: 5px; border-radius: 5px }
-  → class="rounded-[5px] overflow-hidden p-4"
-
-.lista_filmografia img { width: 100px; float: left }
-  → class="box-border w-full rounded-inherit" (dentro de .movie-link)
-
-Icono de click:
-  → ::before con background-image y position absolute
-```
-
----
-
-### Punto 4.3: Migrar página filmografia.astro
-
-**Archivo creado:**
-- `src/pages/filmografia.astro`
-
-**Código implementado:**
-```astro
----
-import BaseLayout from '../layouts/BaseLayout.astro';
-import MovieItem from '../components/MovieItem.astro';
-import { movies } from '../data/movies';
-
-const pageTitle = 'Dave Chappelle - Filmografía';
----
-
-<BaseLayout title={pageTitle} activeSection="sec_6">
-  <section id="sec_6" class="max-w-[750px] mx-auto py-12 px-4">
-    <h2 class="text-[2em] font-light border-b-2 border-red-accent pb-2 mb-6">
-      Filmografía
-    </h2>
-
-    <p class="text-justify leading-7 mb-8">
-      Sus créditos cinematográficos incluyen...
-    </p>
-
-    <ul class="list-none p-0 overflow-hidden">
-      {movies.map((movie, index) => (
-        <MovieItem movie={movie} index={index} />
-      ))}
-    </ul>
-  </section>
-</BaseLayout>
-```
-
-**Características implementadas:**
-- Línea 2-4: Imports de layout, componente MovieItem y datos
-- Línea 9: BaseLayout con activeSection="sec_6" (Filmografía)
-- Línea 10: Section con estilos consistentes del plan
-- Línea 11-13: H2 con border inferior rojo según mapeo
-- Línea 15-17: Párrafo introductorio (extraído de línea 54 del HTML original)
-- Línea 19: UL con reset de estilos de lista
-- Línea 20-22: Map sobre array `movies` pasando `index` para zebra striping
-
-**Contenido migrado del HTML original:**
-- Párrafo de introducción (línea 54-62)
-- Lista de 8 películas (líneas 64-201)
-- Zebra striping en items impares (nth-child(2n-1))
-
----
-
-## Resumen FASE 4
-
-**Archivos creados:** 3 totales
-- `src/data/movies.ts` - Datos de 8 películas tipados
-- `src/components/MovieItem.astro` - Item de película con zebra striping
-- `src/pages/filmografia.astro` - Página completa migrada
-
-**Mapeos principales CSS → Tailwind:**
-| CSS Original | Tailwind | Uso |
-|--------------|----------|-----|
-| `li:nth-child(2n-1) { background: #000 }` | `index % 2 === 0 ? 'bg-black' : ''` | Zebra striping |
-| `border-radius: 5px` | `rounded-[5px]` | Bordes redondeados de items |
-| `padding: 5px` | `p-4` | Padding de items |
-| `list-style: none` | `list-none` | Reset de lista |
-| `overflow: hidden` | `overflow-hidden` | Clearfix |
-| `float: left` | Estilos scoped | Imagen flotante en .movie-link |
-
-**Pseudo-elementos implementados:**
-- `.movie-link::before` - Icono de click (icono_click_black.png 20x20px)
-- Hover oculta icono: `display: none` en hover
-- Hover en imagen: `border: solid 2px #8cb4ff`
-
-**Testing realizado:**
-```bash
-npm run dev
-# Verificar página en http://localhost:4321/filmografia
-```
-
-**Verificaciones completadas:**
-- ✅ 8 items de películas renderizados correctamente
-- ✅ Zebra striping funciona (items pares con fondo negro)
-- ✅ Imágenes flotan a la izquierda con ancho 100px
-- ✅ Icono de click visible y desaparece en hover
-- ✅ Hover en imagen aplica borde azul
-- ✅ Enlaces externos abren en nueva pestaña con rel="noopener noreferrer"
-- ✅ Navegación activa en sec_6 (Filmografía)
-- ✅ Comparación visual con `/contenido/filmografia.html` original: idéntico
-
-**Notas técnicas:**
-- TypeScript: Interface `Movie` para type safety
-- Zebra striping: Calculado dinámicamente con `index % 2 === 0`
-- Pseudo-elementos: Implementados con `<style>` scoped para icono de click
-- Data-driven: Las películas se mapean desde array tipado
-- Accesibilidad: Alt texts descriptivos, rel="noopener noreferrer" en enlaces externos
-- Componente reutilizable: MovieItem puede recibir cualquier objeto Movie
-
-**Estado:** FASE 4 completada exitosamente. Todos los componentes de filmografía están creados y la página filmografia.astro está totalmente migrada y funcional.
+**Estado:** FASE 3 completada exitosamente. La página chapelle-show.astro está migrada con componentes reutilizables para personajes y galerías de GIFs con layout complejo.
