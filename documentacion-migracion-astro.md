@@ -668,3 +668,284 @@ Enlaces:
 - Flex con gap-5
 
 **Estado:** La FASE 2 está completada exitosamente. La página index.html ha sido migrada completamente a Astro con componentes reutilizables.
+
+---
+
+## FASE 3: COMPONENTES DE PERSONAJES
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-05 (anterior)
+**Complejidad:** MEDIA-ALTA
+**Duración:** 1.5 horas
+
+### Objetivo
+Crear componentes reutilizables para tarjetas de personajes de Chappelle's Show con datos externos y galerías de GIFs complejas.
+
+**Estado:** La FASE 3 fue completada previamente. Se crearon componentes para personajes (CharacterCard.astro, CharacterGifGallery.astro) y se migró la página chapelle-show.astro con 6 personajes y layout complejo de galerías.
+
+---
+
+## FASE 4: COMPONENTES DE FILMOGRAFÍA
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-05
+**Complejidad:** MEDIA-ALTA
+**Duración:** 1 hora
+
+### Objetivo
+Crear componente de filmografía con datos externos, zebra striping alternado, icono de click y migrar página filmografia.astro.
+
+---
+
+### Punto 4.1: Externalizar datos de películas
+
+**Archivo creado:**
+- `src/data/movies.ts`
+
+**Código implementado:**
+```typescript
+// Línea 2-8: Interface Movie tipada
+export interface Movie {
+  id: number;
+  title: string;
+  year: string;
+  image: string;
+  url: string;
+  description: string;
+}
+
+// Línea 11-97: Array movies con 8 películas
+export const movies: Movie[] = [
+  {
+    id: 1,
+    title: 'Las locas, locas aventuras de Robin Hood',
+    year: '1993',
+    image: '/imagenes/robin_hood_dave.jpg',
+    url: 'https://es.wikipedia.org/wiki/Robin_Hood:_Men_in_Tights',
+    description: '...'
+  },
+  // ... 7 películas más
+];
+```
+
+**Películas incluidas:**
+1. Las locas, locas aventuras de Robin Hood (1993)
+2. El Profesor chiflado (1996)
+3. Con Air (1997)
+4. Medio flipado (1998)
+5. Tienes un e-m@il (1998)
+6. De ladrón a policía (1999)
+7. El hermano encubierto (2002)
+8. Dave Chappelle's Block Party (2005)
+
+**Características:**
+- Interface TypeScript con 7 propiedades tipadas
+- 8 películas (no 7 como indicaba el plan - se incluyó Block Party del HTML original)
+- URLs a Wikipedia y otras fuentes
+- Descripciones completas extraídas del HTML original
+
+---
+
+### Punto 4.2: Crear componente MovieItem.astro
+
+**Archivo creado:**
+- `src/components/MovieItem.astro`
+
+**Código implementado:**
+```astro
+---
+// Línea 2: Import de interface Movie
+import type { Movie } from '../data/movies';
+
+// Línea 4-7: Props tipadas con movie e index
+interface Props {
+  movie: Movie;
+  index: number;
+}
+
+const { movie, index } = Astro.props;
+---
+
+<!-- Línea 13: LI con zebra striping condicional -->
+<li class={`rounded-[5px] overflow-hidden p-4 ${index % 2 === 0 ? 'bg-black' : ''}`}>
+  <a href={movie.url} target="_blank" rel="noopener noreferrer" class="movie-link">
+    <img
+      src={movie.image}
+      alt={`Portada de la película ${movie.title}`}
+      width="100"
+      height="148"
+    />
+  </a>
+  <div class="flex flex-col">
+    <h3>{movie.title}</h3>
+    <p>{movie.description}</p>
+  </div>
+</li>
+
+<!-- Líneas 27-56: Estilos scoped para icono de click -->
+<style>
+  .movie-link {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    display: block;
+    float: left;
+    width: 100px;
+  }
+
+  .movie-link::before {
+    position: absolute;
+    content: "";
+    display: block;
+    background-image: url("/imagenes/icono_click_black.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    bottom: 2px;
+    right: 2px;
+  }
+
+  .movie-link:hover::before {
+    display: none;
+  }
+
+  .movie-link img:hover {
+    border: solid 2px #8cb4ff;
+  }
+</style>
+```
+
+**Características implementadas:**
+- **Zebra striping** (línea 13): `index % 2 === 0 ? 'bg-black' : ''`
+- **Icono de click** (línea 37-46): Pseudo-elemento ::before con icono_click_black.png
+- **Efecto hover** (línea 48-50): Oculta icono al pasar mouse
+- **Borde azul hover** (línea 52-54): Border de 2px #8cb4ff en imagen
+- **Float left** (línea 35): Imagen flotante a la izquierda (100px width)
+- **Layout flex** (línea 23): Div con flex-col para título y descripción
+
+**Mapeo CSS → Tailwind:**
+```
+.lista_filmografia li:nth-child(2n-1) { background-color: #000000 }
+  → class={index % 2 === 0 ? 'bg-black' : ''}
+
+border-radius: 5px → rounded-[5px]
+overflow: hidden → overflow-hidden
+padding: 1em → p-4
+display: flex; flex-direction: column → flex flex-col
+```
+
+**Estilos scoped conservados:**
+- Pseudo-elemento ::before para icono (no soportado nativamente en Tailwind)
+- Hover states complejos
+- Position relative para contenedor de enlace
+
+---
+
+### Punto 4.3: Migrar página filmografia.astro
+
+**Archivo creado:**
+- `src/pages/filmografia.astro`
+
+**Código implementado:**
+```astro
+---
+// Línea 2-4: Imports necesarios
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MovieItem from '../components/MovieItem.astro';
+import { movies } from '../data/movies';
+
+const pageTitle = 'Dave Chappelle - Filmografía';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_6">
+  <section id="sec_6" class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 class="text-[2em] font-light border-b-2 border-red-accent pb-2 mb-6">
+      Filmografía
+    </h2>
+
+    <!-- Línea 15-21: Párrafo introductorio -->
+    <p class="text-justify leading-7 mb-8">
+      Sus créditos cinematográficos incluyen "Chi-Raq" de Spike Lee...
+    </p>
+
+    <!-- Línea 23-27: UL con map sobre movies -->
+    <ul class="list-none p-0 overflow-hidden">
+      {movies.map((movie, index) => (
+        <MovieItem movie={movie} index={index} />
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+```
+
+**Características implementadas:**
+- **BaseLayout** con activeSection="sec_6" (línea 10)
+- **Section** con estilos del plan (línea 11)
+- **H2** con borde rojo inferior (línea 12)
+- **Párrafo introductorio** justificado (línea 17)
+- **UL** con map sobre array movies (línea 24-26)
+- **Index pasado a MovieItem** para zebra striping
+
+**Mapeo CSS → Tailwind:**
+```
+section { max-width: 750px; margin: auto; padding: 50px 0px }
+  → max-w-[750px] mx-auto py-12 px-4
+
+h2 { font-size: 2em; font-weight: 300; border-bottom: 2px solid #ff0213 }
+  → text-[2em] font-light border-b-2 border-red-accent pb-2 mb-6
+
+ul { list-style: none; padding: 0px; overflow: hidden }
+  → list-none p-0 overflow-hidden
+
+p { text-align: justify }
+  → text-justify leading-7 mb-8
+```
+
+---
+
+## Resumen FASE 4
+
+**Archivos creados:** 3 totales
+- `src/data/movies.ts` - Datos de 8 películas con interface TypeScript
+- `src/components/MovieItem.astro` - Item de filmografía con zebra striping e icono
+- `src/pages/filmografia.astro` - Página migrada con lista de películas
+
+**Técnicas implementadas:**
+- **Zebra striping alternado:** `index % 2 === 0 ? 'bg-black' : ''`
+- **Pseudo-elemento ::before:** Icono de click con background-image
+- **Efectos hover:** Ocultar icono y mostrar borde azul
+- **Float layout:** Imagen flotante izquierda + texto a la derecha
+- **TypeScript typing:** Interface Movie con 7 propiedades
+
+**Mapeos CSS → Tailwind principales:**
+| CSS Original | Tailwind | Elemento |
+|--------------|----------|----------|
+| `list-style: none` | `list-none` | UL |
+| `padding: 0px` | `p-0` | UL |
+| `overflow: hidden` | `overflow-hidden` | UL |
+| `border-radius: 5px` | `rounded-[5px]` | LI |
+| `padding: 1em` | `p-4` | LI |
+| `background-color: #000000` | `bg-black` | LI (zebra) |
+| `display: flex; flex-direction: column` | `flex flex-col` | DIV |
+| `text-align: justify` | `text-justify` | P |
+
+**Testing realizado:**
+```bash
+npm run dev
+# ✅ Servidor iniciado en http://localhost:4321/
+# ✅ Página /filmografia accesible
+# ✅ 8 películas renderizadas correctamente
+# ✅ Zebra striping alternado funcionando
+# ✅ Icono de click visible en imágenes
+# ✅ Hover effects: icono desaparece, borde azul aparece
+# ✅ Enlaces externos funcionan con target="_blank"
+```
+
+**Notas técnicas:**
+- Se incluyó "Dave Chappelle's Block Party" (película 8) encontrada en el HTML original
+- Icono de click implementado con estilos scoped (pseudo-elemento ::before)
+- Zebra striping usa lógica `index % 2 === 0` en lugar de CSS `:nth-child(2n-1)`
+- Float layout preservado del original (imagen 100px width, float left)
+
+**Estado:** La FASE 4 está completada exitosamente. La página de filmografía ha sido migrada con zebra striping, icono de click y datos externos TypeScript.
