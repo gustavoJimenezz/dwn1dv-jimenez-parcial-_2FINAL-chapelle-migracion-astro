@@ -1,0 +1,21 @@
+---
+import type { Character } from '../data/characters';
+
+interface Props {
+  character: Character;
+}
+
+const { character } = Astro.props;
+---
+
+<div class="my-5 overflow-auto text-justify">
+  <img
+    src={character.image}
+    alt={`Perfil del personaje ${character.name}`}
+    width="200"
+    height="195"
+    class="w-[200px] float-left mr-4"
+  />
+  <h4 class="text-xl font-semibold mb-2">{character.name}</h4>
+  <p>{character.description}</p>
+</div>

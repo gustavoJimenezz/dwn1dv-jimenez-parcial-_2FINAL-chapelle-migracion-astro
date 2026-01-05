@@ -2,210 +2,119 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Descripción del Proyecto
+## Resumen del Proyecto
 
-Este repositorio contiene un sitio web tributo a Dave Chappelle que está siendo migrado de HTML/CSS puro a Astro + Tailwind CSS. El proyecto sigue un plan de migración incremental detallado documentado en `planes-migracion-astro.md`.
+Este es un proyecto de migración de un sitio web estático HTML/CSS sobre el comediante Dave Chappelle hacia el framework moderno Astro con TailwindCSS v4.
 
-**Origen:** `/dwn1dv-jimenez-parcial-_2FINAL-chapelle/` - Sitio original HTML/CSS
-**Destino:** Sitio estático Astro + Tailwind CSS
+## Directorios de Trabajo
 
-## Flujo de Trabajo de Migración
+**IMPORTANTE**: Al trabajar en este proyecto, siempre tener en cuenta:
 
-Este proyecto tiene un flujo de documentación específico definido en `documentar-migracion.md`:
+- **📝 Directorio de trabajo activo (donde se agregan cambios)**: `astro-dwn1dv-jimenez-parcial-_2FINAL-chapelle-migracion/`
+  - Este es el proyecto Astro donde se implementan todas las migraciones y cambios
+  - Todos los comandos npm deben ejecutarse desde aquí
 
-1. Al trabajar en tareas de migración, siempre consultar `planes-migracion-astro.md` para la fase actual
-2. Documentar todos los cambios en `documentacion-migracion-astro.md` (crear si no existe)
-3. Para cada paso de migración, documentar:
-   - Fase y tarea actual del plan de migración
-   - Archivos editados
-   - Cambios realizados
+- **📁 Código fuente original (solo referencia)**: `original-dwn1dv-jimenez-parcial-_2FINAL-chapelle/`
+  - Sitio HTML/CSS estático original
+  - Usar solo como referencia para migración
+  - NO modificar este directorio
 
-**Importante:** Solo documentar cuando se trabaje explícitamente con el contexto del plan de migración.
+## Comandos
 
-## Arquitectura y Sistema de Diseño
-
-### Paleta de Colores
-- **Fondo oscuro:** `#0e0f13` → Tailwind: `bg-dark-bg`
-- **Acento rojo:** `#ff0213` → Tailwind: `border-red-accent`
-- **Azul de enlaces:** `#8cb4ff` → Tailwind: `text-link-blue`
-- **Secciones negras:** `#000000` → Tailwind: `bg-black`
-
-### Tipografía
-- **Fuente:** Open Sans (vía Google Fonts)
-- **Tamaño base:** `1.1em` → Tailwind: `text-lg`
-- **Altura de línea:** `28px`
-
-### Patrones de Layout Clave
-
-**Header:**
-- Fondo parallax fijo (`background-attachment: fixed`)
-- Tamaño de fondo: `1006px`
-- Gradiente sobre h1
-- Borde inferior: 2px sólido acento rojo
-
-**Navegación:**
-- Posicionamiento sticky (`position: sticky; top: 0`)
-- Indicador de página activa con animación pulsante (keyframes `mianimacion`)
-- Efecto hover: subrayado rojo animado (pseudo-elemento `::after`)
-
-**Footer:**
-- Consistente en todas las páginas (excepto inconsistencia menor en filmografia.html)
-- Contiene información del autor y enlaces de fuentes
-- Imagen flota a la izquierda
-
-### Patrones de Componentes
-
-**Tarjetas de Personajes** (`/contenido/chapelle_show.html`):
-- Imagen flota a la izquierda (ancho 200px)
-- Texto justificado
-- Overflow auto para clearfix
-
-**Items de Películas** (`/contenido/filmografia.html`):
-- Rayado zebra: `li:nth-child(2n-1)` tiene fondo negro
-- Icono de click con pseudo-elemento (`::before`)
-- Hover: contorno azul en imágenes
-
-**Galería Netflix** (`/contenido/el_regreso.html`):
-- Layout flex wrap
-- Icono de click con pseudo-elemento
-- Hover: contorno azul (2px sólido #8cb4ff)
-
-**Componentes de Formulario** (`/contenido/formulario.html`):
-- Esquema de color oscuro (`color-scheme: dark`)
-- Inputs: fondo oscuro con borde inferior rojo
-- Botón submit: gradiente radial en hover
-- Labels ocultos (accesibilidad vía placeholder)
-
-**Galerías de GIFs:**
-- `.gif_intro`: display flex horizontal
-- `.personajes_gifs`: layout complejo con variaciones verticales y agrupadas
-- `.gif_vertical`: flex column
-- `.gif_grupo`: flex wrap con gap
-
-## Comandos de Desarrollo
-
-**Nota:** En el estado inicial del repositorio, aún no hay un proyecto Astro inicializado. Estos comandos estarán disponibles después de la configuración de FASE 0:
+Ejecutar todos los comandos desde el directorio del proyecto Astro:
 
 ```bash
-# Inicializar proyecto Astro (FASE 0)
-npm create astro@latest -- --template empty
-
-# Instalar Tailwind CSS
-npx astro add tailwind
-
-# Servidor de desarrollo
-npm run dev
-
-# Build de producción
-npm run build
-
-# Vista previa de build de producción
-npm run preview
+cd astro-dwn1dv-jimenez-parcial-_2FINAL-chapelle-migracion
 ```
 
-## Estructura del Plan de Migración
+- `npm run dev` - Servidor de desarrollo en localhost:4321
+- `npm run build` - Construir sitio de producción en ./dist/
+- `npm run preview` - Previsualizar build de producción localmente
 
-La migración sigue un enfoque incremental de 9 fases (detallado en `planes-migracion-astro.md`):
+## Arquitectura del Proyecto
 
-1. **FASE 0:** Configuración del entorno (config Astro + Tailwind, estructura de carpetas, assets estáticos)
-2. **FASE 1:** Layout base y componentes estructurales (Header, Nav, Footer)
-3. **FASE 2:** Migración de página index
-4. **FASE 3:** Componentes de personajes (Chappelle's Show)
-5. **FASE 4:** Componentes de filmografía
-6. **FASE 5:** Especiales de Netflix y páginas de contenido
-7. **FASE 6:** Componentes de formulario
-8. **FASE 7:** Optimización y refinamiento (animaciones, SEO, accesibilidad)
-9. **FASE 8:** Build y despliegue
+### Estrategia de Migración por Fases
 
-Cada fase incluye mapeos específicos de CSS → Tailwind y requisitos de testing.
+El proyecto sigue una migración por fases desde el HTML original:
+- **FASE 1 (Completada)**: Layout base y componentes estructurales (BaseLayout, Header, Footer, Navigation)
+- **FASE 2 (Completada)**: Migración de página index
+- **Fases futuras**: Páginas de contenido restantes (carrera-temprana, chapelle-show, el-final-del-show, el-regreso, filmografia, buddies, suscripcion)
 
-## Estructura de Archivos (Post-Migración)
+### Estructura de Directorios
 
 ```
-/src/
+src/
+├── components/          # Componentes Astro reutilizables
+│   ├── BackToTop.astro
+│   ├── Footer.astro
+│   ├── GifGallery.astro
+│   ├── Header.astro
+│   ├── ImageTextContainer.astro
+│   └── Navigation.astro
+├── data/               # Definiciones de datos en TypeScript
+│   ├── author.ts       # Información del autor
+│   ├── navigation.ts   # Estructura de navegación del sitio
+│   └── sources.ts      # Fuentes/referencias externas
 ├── layouts/
-│   └── BaseLayout.astro          # Layout principal con meta tags, fuentes
-├── components/
-│   ├── Navigation.astro          # Nav sticky con estado activo
-│   ├── Header.astro              # Header parallax
-│   ├── Footer.astro              # Info autor + fuentes
-│   ├── BackToTop.astro           # Botón fijo abajo-derecha
-│   ├── ImageTextContainer.astro  # Imagen flotante con texto envolvente
-│   ├── GifGallery.astro          # Display horizontal de GIFs
-│   ├── CharacterCard.astro       # Personajes de Chappelle's Show
-│   ├── CharacterGifGallery.astro # Layout complejo vertical/agrupado
-│   ├── MovieItem.astro           # Filmografía con rayado zebra
-│   ├── NetflixGallery.astro      # Grid de especiales Netflix
-│   ├── FigureWithCaption.astro   # Figure HTML5 con caption rojo
-│   ├── Blockquote.astro          # Citas estilizadas
-│   └── forms/
-│       ├── TextInput.astro
-│       ├── TextArea.astro
-│       ├── Select.astro
-│       └── Checkbox.astro
-├── pages/
-│   ├── index.astro               # Introducción
-│   ├── carrera-temprana.astro    # Carrera temprana
-│   ├── chapelle-show.astro       # Chappelle's Show
-│   ├── el-final-del-show.astro   # Final del show
-│   ├── el-regreso.astro          # Regreso a Netflix
-│   ├── filmografia.astro         # Lista de películas
-│   ├── buddies.astro             # Serie TV Buddies
-│   └── suscripcion.astro         # Formulario de suscripción
-├── data/
-│   ├── navigation.js             # 8 enlaces de navegación
-│   ├── author.js                 # Info del autor para footer
-│   ├── sources.js                # Bibliografía del footer
-│   ├── characters.js             # 6 personajes de Chappelle's Show
-│   ├── movies.js                 # 7 películas
-│   ├── netflix-specials.js       # 4 especiales de Netflix
-│   └── form-options.js           # Datos de select/checkbox del formulario
+│   └── BaseLayout.astro # Layout principal wrapper
+├── pages/              # Enrutamiento basado en archivos
+│   └── index.astro
 └── styles/
-    └── global.css                # Animaciones, pseudo-elementos
+    └── global.css      # Configuración de tema TailwindCSS v4
 
-/public/
-├── imagenes/                     # Todas las imágenes (jpg, gif, png)
-└── favicon/                      # Assets de favicon
+public/
+├── favicon/           # Archivos de favicon
+└── imagenes/          # Todas las imágenes incluyendo gifs
 ```
 
-## Consideraciones Importantes
+### Patrones de Diseño Clave
 
-### Especificidad CSS
-El sitio original usa dos archivos CSS:
-- `estilo.css`: Estilos base (body, header, nav, footer, elementos generales)
-- `estilo_clases.css`: Clases de componentes específicos de página
+**Navegación Data-Driven**: Los enlaces de navegación se definen en `src/data/navigation.ts`:
+```typescript
+{ id: number, href: string, label: string, section: string }
+```
 
-Al migrar, mantener exactamente la jerarquía visual y efectos hover.
+**Seguimiento de Sección Activa**: Cada página recibe un prop `activeSection` que corresponde a un ID de sección (ej: 'sec_1', 'sec_2'). Esto se usa para resaltar la página actual en la navegación mediante la clase `pagina-activada`.
 
-### Animaciones
-- `.pagina_activada` usa una animación keyframe infinita de 6 segundos con brillo rojo
-- Hover de navegación usa transiciones CSS (transición de width de 0.5s en `::after`)
-- Botón submit del formulario tiene hover con gradiente radial
+**Composición de Layout**: Todas las páginas usan `BaseLayout.astro` que incluye:
+- Navigation (header sticky)
+- Header
+- Botón BackToTop (apunta a 'sec_1')
+- Footer
+- Estilos globales y fuentes
 
-### Notas de Accesibilidad
-- Labels del formulario están ocultos pero presentes (accesibles para lectores de pantalla)
-- Todas las imágenes tienen texto alt en el HTML original
-- Los colores de enlaces tienen contraste suficiente (#8cb4ff sobre fondo oscuro)
+**Patrones de Contenido Reutilizable**:
+- `ImageTextContainer.astro` - Permite flotar imágenes a izquierda/derecha con texto envolvente
+- `GifGallery.astro` - Muestra arrays de imágenes GIF
 
-### Inconsistencias a Corregir
-- El footer en `filmografia.html` difiere ligeramente de otras páginas - normalizar durante migración
-- Asegurar que todas las páginas usen datos consistentes de autor y enlaces de fuentes
+### Enfoque de Estilos
 
-## Rutas de Assets
-- Imágenes originales: `/dwn1dv-jimenez-parcial-_2FINAL-chapelle/imagenes/`
-- Favicons originales: `/dwn1dv-jimenez-parcial-_2FINAL-chapelle/favicon/`
-- Assets públicos Astro: Copiar a `/public/imagenes/` y `/public/favicon/`
+Usa TailwindCSS v4 con tema personalizado en `src/styles/global.css`:
+- `--color-dark-bg: #0e0f13` - Fondo principal
+- `--color-red-accent: #ff0213` - Color de acento
+- `--color-link-blue: #8cb4ff` - Color de enlaces
+- `--color-darker: #000000` - Fondo de navegación
+- `--font-family-sans: "Open Sans"` - Fuente principal
 
-## Dependencias Externas
-- **Google Fonts:** Open Sans (pesos: 300, 400, 700)
-- **Embeds de YouTube:** Usado en el-regreso.astro para trailers de especiales Netflix
-- **Enlaces Netflix:** Enlaces externos a contenido de Netflix
+Los estilos con scope de componente se usan para interacciones específicas (ej: efectos hover de Navigation).
 
-## Checklist de Testing (Por Fase)
-- Comparación visual con páginas HTML originales
-- Verificar todos los efectos hover y animaciones
-- Verificar comportamiento responsive
-- Probar estado activo de navegación
-- Validar enlaces y recursos externos
-- Accesibilidad: navegación por teclado, textos alt
-- Compatibilidad entre navegadores
+### Notas para Migración de Páginas
+
+Al migrar nuevas páginas desde el HTML original:
+1. Crear nuevo archivo `.astro` en `src/pages/` que coincida con la ruta de `navigation.ts`
+2. Usar `BaseLayout` con los props apropiados de title y activeSection
+3. Extraer secciones de contenido preservando HTML semántico
+4. Convertir estilos inline a clases de utilidad de TailwindCSS
+5. Las imágenes ya están en `public/imagenes/`
+6. Usar archivos de datos en `src/data/` para contenido estructurado cuando sea apropiado
+
+### Assets Estáticos
+
+Todas las imágenes y favicons del sitio original están en el directorio `public/` y se referencian con rutas absolutas (ej: `/imagenes/dave_chapelle_1993.jpg`).
+
+## Stack Tecnológico
+
+- **Astro 5.16.6** - Generador de Sitios Estáticos
+- **TailwindCSS 4.1.18** - Estilos (vía plugin de Vite)
+- **TypeScript** - Definiciones de datos type-safe
+- **Google Fonts** - Familia de fuentes Open Sans
