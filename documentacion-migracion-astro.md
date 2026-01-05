@@ -919,15 +919,14 @@ const groupGifs = [
 section { max-width: 750px; margin: auto; padding: 50px 0px }
   → max-w-[750px] mx-auto py-12 px-4
 
-h2 { border-bottom: 2px solid #ff0213 }
-  → border-b-2 border-red-accent
+h2 { font-size: 2em; font-weight: 300; border-bottom: 2px solid #ff0213 }
+  → text-[2em] font-light border-b-2 border-red-accent pb-2 mb-6
 
-img { width: 700px }
-  → w-full max-w-[700px] h-auto
+ul { list-style: none; padding: 0px; overflow: hidden }
+  → list-none p-0 overflow-hidden
 
-Enlaces:
-  color: #8cb4ff → text-link-blue
-  hover: underline → hover:underline
+p { text-align: justify }
+  → text-justify leading-7 mb-8
 ```
 
 ---
@@ -960,3 +959,4 @@ Enlaces:
 - Secciones de contenido: `max-w-[750px] mx-auto py-12 px-4`
 
 **Estado:** FASE 3 completada exitosamente. La página chapelle-show.astro está migrada con componentes reutilizables para personajes y galerías de GIFs con layout complejo.
+
