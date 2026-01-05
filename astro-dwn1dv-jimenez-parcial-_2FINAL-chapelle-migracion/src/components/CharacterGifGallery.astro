@@ -1,0 +1,39 @@
+---
+interface GifItem {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  verticalGifs: GifItem[];
+  groupGifs: GifItem[];
+}
+
+const { verticalGifs, groupGifs } = Astro.props;
+---
+
+<div class="flex gap-5 my-8">
+  <div class="flex flex-col gap-5">
+    {verticalGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        class="w-[200px]"
+        width={gif.width}
+        height={gif.height}
+      />
+    ))}
+  </div>
+  <div class="flex flex-wrap gap-4">
+    {groupGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        width={gif.width}
+        height={gif.height}
+      />
+    ))}
+  </div>
+</div>

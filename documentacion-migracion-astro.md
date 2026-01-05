@@ -586,7 +586,7 @@ const introGifs = [
     src: '/imagenes/gif/intro_1.gif',
     alt: 'gif stand up con Chris Rock',
     width: 200,
-    height: 113
+    height: 113    - src/components/CharacterCard.astro (tarjeta reutilizable)
   },
   {
     src: '/imagenes/gif/intro_3.gif',
@@ -668,3 +668,295 @@ Enlaces:
 - Flex con gap-5
 
 **Estado:** La FASE 2 está completada exitosamente. La página index.html ha sido migrada completamente a Astro con componentes reutilizables.
+
+---
+
+## FASE 3: COMPONENTES DE PERSONAJES
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-05
+**Duración:** 1.5 horas
+**Complejidad:** MEDIA-ALTA
+**Dependencia:** FASE 2
+
+### Objetivo
+Crear componentes reutilizables para tarjetas de personajes de Chappelle's Show con datos externos tipados y galerías de GIFs con layout complejo (vertical + agrupado).
+
+---
+
+### Punto 3.1: Externalizar datos de personajes
+
+**Archivo creado:**
+- `src/data/characters.ts`
+
+**Código implementado:**
+```typescript
+export interface Character {
+  id: number;
+  name: string;
+  image: string;
+  gif: string;
+  description: string;
+}
+
+export const characters: Character[] = [
+  {
+    id: 1,
+    name: 'Tron Carter',
+    image: '/imagenes/tron_carter.jpg',
+    gif: '/imagenes/gif/carter.gif',
+    description: 'En esta mirada satirica al sistema de justicia penal...'
+  },
+  // ... 5 personajes más
+];
+```
+
+**Características:**
+- Línea 1-6: Interface `Character` con 5 propiedades tipadas
+- Línea 8: Export de array `characters` con 6 personajes
+- Datos extraídos de `/contenido/chapelle_show.html` (líneas 89-168 del original)
+- Personajes incluidos: Tron Carter, Tyrone Biggums, "Silky" Johnson, Chuck Taylor, Leonard Washington, Lil' Jon
+
+---
+
+### Punto 3.2: Crear componente CharacterCard.astro
+
+**Archivo creado:**
+- `src/components/CharacterCard.astro`
+
+**Código implementado:**
+```astro
+---
+import type { Character } from '../data/characters';
+
+interface Props {
+  character: Character;
+}
+
+const { character } = Astro.props;
+---
+
+<div class="my-5 overflow-auto text-justify">
+  <img
+    src={character.image}
+    alt={`Perfil del personaje ${character.name}`}
+    class="w-[200px] float-left mr-4 mb-2"
+    width="200"
+    height="195"
+  />
+  <h4 class="text-xl font-semibold mb-2">{character.name}</h4>
+  <p class="leading-7">
+    {character.description}
+  </p>
+</div>
+```
+
+**Características implementadas:**
+- Línea 2: Import del type `Character` desde datos externos
+- Línea 4-6: Interface Props tipada
+- Línea 11: Contenedor con overflow-auto para clearfix
+- Línea 15: Imagen flotante a la izquierda con ancho fijo 200px
+- Línea 19: Título h4 con estilos tipográficos
+- Línea 20: Descripción con leading-7
+
+**Mapeo CSS → Tailwind:**
+```
+.personajes > div { margin: 20px auto; overflow: auto } → my-5 overflow-auto
+.personajes img { width: 200px; float: left } → w-[200px] float-left
+text-align: justify → text-justify
+```
+
+---
+
+### Punto 3.3: Crear componente CharacterGifGallery.astro
+
+**Archivo creado:**
+- `src/components/CharacterGifGallery.astro`
+
+**Código implementado:**
+```astro
+---
+interface GifItem {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  verticalGifs: GifItem[];
+  groupGifs: GifItem[];
+}
+
+const { verticalGifs, groupGifs } = Astro.props;
+---
+
+<div class="flex gap-5 my-8">
+  <div class="flex flex-col gap-5">
+    {verticalGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        class="w-[200px]"
+        width={gif.width}
+        height={gif.height}
+      />
+    ))}
+  </div>
+  <div class="flex flex-wrap gap-4">
+    {groupGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        width={gif.width}
+        height={gif.height}
+      />
+    ))}
+  </div>
+</div>
+```
+
+**Características implementadas:**
+- Línea 2-7: Interface `GifItem` con propiedades de imagen
+- Línea 9-12: Props con dos arrays: verticalGifs y groupGifs
+- Línea 17: Contenedor flex horizontal con gap de 20px
+- Línea 18: Columna vertical de GIFs (flex flex-col)
+- Línea 29: Grupo de GIFs con flex-wrap
+
+**Mapeo CSS → Tailwind:**
+```
+.personajes_gifs { display: flex; gap: 20px } → flex gap-5
+.gif_vertical { display: flex; flex-direction: column } → flex flex-col
+.gif_grupo { display: flex; flex-wrap: wrap; gap: 15px } → flex flex-wrap gap-4
+img { width: 200px } → w-[200px]
+```
+
+**Estructura de layout complejo implementada:**
+- **División vertical** (3 GIFs): carter.gif, lil_jon.gif, leonard.gif
+- **División agrupada** (3 GIFs): tyrone.gif (grande), confused.gif, taylor.gif
+
+---
+
+### Punto 3.4: Migrar página chapelle-show.astro
+
+**Archivo creado:**
+- `src/pages/chapelle-show.astro`
+
+**Código principal (primeras líneas):**
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CharacterCard from '../components/CharacterCard.astro';
+import CharacterGifGallery from '../components/CharacterGifGallery.astro';
+import { characters } from '../data/characters';
+
+const pageTitle = "Chappelle's Show - Dave Chappelle";
+
+const verticalGifs = [
+  { src: '/imagenes/gif/carter.gif', alt: 'gif de Tron Carter', width: 200, height: 149 },
+  { src: '/imagenes/gif/lil_jon.gif', alt: 'gif de Lil jon', width: 200, height: 149 },
+  { src: '/imagenes/gif/leonard.gif', alt: 'gif de Leonard', width: 200, height: 163 }
+];
+
+const groupGifs = [
+  { src: '/imagenes/gif/tyrone.gif', alt: 'gif de Tayrone', width: 470, height: 353 },
+  { src: '/imagenes/gif/confused.gif', alt: 'gif escena de confisión', width: 200, height: 150 },
+  { src: '/imagenes/gif/taylor.gif', alt: 'gif de Taylor', width: 200, height: 155 }
+];
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_3">
+  <section id="sec_3" class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 lang="en" class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent">
+      Chappelle's Show
+    </h2>
+
+    <img
+      src="/imagenes/chappelles-show-logo.png"
+      alt="logo del show"
+      class="w-full max-w-[700px] h-auto mb-6"
+    />
+
+    <p class="leading-7 mb-6 text-justify">
+      <!-- Párrafo con enlaces a Netflix, Neal Brennan, Michele Armour, Comedy Central -->
+    </p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8">Personajes</h3>
+
+    <CharacterGifGallery verticalGifs={verticalGifs} groupGifs={groupGifs} />
+
+    <div class="space-y-8">
+      {characters.map((character) => (
+        <CharacterCard character={character} />
+      ))}
+    </div>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8">Estrellas invitadas</h3>
+    <!-- 2 párrafos con listas de invitados y músicos -->
+  </section>
+</BaseLayout>
+```
+
+**Características implementadas:**
+- Línea 2-5: Imports de layout, componentes y datos
+- Línea 9-18: Data de GIFs externalizada (10 GIFs totales según plan)
+- Línea 22: BaseLayout con activeSection "sec_3"
+- Línea 23: Section con max-w-[750px]
+- Línea 24-26: H2 con border-bottom rojo
+- Línea 28-32: Logo del show (700x271px)
+- Línea 34-36: Párrafo de introducción con enlaces externos
+- Línea 40: Componente CharacterGifGallery con layout complejo
+- Línea 42-46: Map sobre array characters para renderizar 6 tarjetas
+- Línea 48-50: Sección de estrellas invitadas con múltiples enlaces
+
+**Enlaces externos incluidos:**
+- Netflix (Chappelle's Show)
+- Wikipedia (Neal Brennan, Comedy Central, Half Baked)
+- Múltiples artistas invitados (30+ enlaces)
+
+**Mapeo CSS → Tailwind aplicado:**
+```
+section { max-width: 750px; margin: auto; padding: 50px 0px }
+  → max-w-[750px] mx-auto py-12 px-4
+
+h2 { border-bottom: 2px solid #ff0213 }
+  → border-b-2 border-red-accent
+
+img { width: 700px }
+  → w-full max-w-[700px] h-auto
+
+Enlaces:
+  color: #8cb4ff → text-link-blue
+  hover: underline → hover:underline
+```
+
+---
+
+## Resumen FASE 3
+
+**Archivos creados:** 4 totales
+- `src/data/characters.ts` - 6 personajes con interface tipada
+- `src/components/CharacterCard.astro` - Tarjeta reutilizable de personaje
+- `src/components/CharacterGifGallery.astro` - Layout complejo vertical + agrupado
+- `src/pages/chapelle-show.astro` - Página completa migrada
+
+**Total de GIFs implementados:** 10
+- 3 GIFs verticales (carter, lil_jon, leonard)
+- 3 GIFs agrupados (tyrone, confused, taylor)
+- Referencias adicionales en personajes (4 más)
+
+**Personajes migrados:** 6
+1. Tron Carter
+2. Tyrone Biggums
+3. "Silky" Johnson
+4. Chuck Taylor
+5. Leonard Washington
+6. Lil' Jon
+
+**Mapeos CSS → Tailwind clave:**
+- Float left con imágenes de 200px: `w-[200px] float-left mr-4`
+- Overflow auto para clearfix: `overflow-auto`
+- Layout complejo de galerías: `flex gap-5`, `flex-col gap-5`, `flex-wrap gap-4`
+- Secciones de contenido: `max-w-[750px] mx-auto py-12 px-4`
+
+**Estado:** FASE 3 completada exitosamente. La página chapelle-show.astro está migrada con componentes reutilizables para personajes y galerías de GIFs con layout complejo.
