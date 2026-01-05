@@ -930,3 +930,217 @@ npm run dev
 - Accesibilidad: Alt texts descriptivos en todas las imágenes
 
 **Estado:** FASE 3 completada exitosamente. Todos los componentes de personajes están creados y la página chapelle-show.astro está totalmente migrada y funcional.
+
+---
+
+## FASE 4: COMPONENTES DE FILMOGRAFÍA
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-05
+**Duración:** 1.5 horas
+**Complejidad:** MEDIA-ALTA
+**Dependencia:** FASE 2
+
+### Objetivo
+Crear componente de filmografía con datos externos, implementar zebra striping y migrar la página filmografia.astro.
+
+---
+
+### Punto 4.1: Externalizar datos de películas
+
+**Archivo creado:**
+- `src/data/movies.ts`
+
+**Código implementado:**
+```typescript
+export interface Movie {
+  id: number;
+  title: string;
+  year: string;
+  image: string;
+  url: string;
+  description: string;
+}
+
+export const movies: Movie[] = [
+  // ... 8 películas
+];
+```
+
+**Características implementadas:**
+- Línea 2-9: Interface `Movie` tipada con propiedades id, title, year, image, url, description
+- Línea 12: Array `movies` exportado con 8 películas
+- Datos extraídos del HTML original `/contenido/filmografia.html` (líneas 64-201)
+
+**Películas incluidas:**
+1. Las locas, locas aventuras de Robin Hood (1993)
+2. El Profesor chiflado (1996)
+3. Con Air (1997)
+4. Medio flipado (1998)
+5. Tienes un e-m@il (1998)
+6. De ladron a policia (1999)
+7. El hermano encubierto (2002)
+8. Dave Chappelle's Block Party (2005)
+
+---
+
+### Punto 4.2: Crear componente MovieItem
+
+**Archivo creado:**
+- `src/components/MovieItem.astro`
+
+**Código implementado:**
+```astro
+---
+import type { Movie } from '../data/movies';
+
+interface Props {
+  movie: Movie;
+  index: number;
+}
+
+const { movie, index } = Astro.props;
+---
+
+<li class={`rounded-[5px] overflow-hidden p-4 ${index % 2 === 0 ? 'bg-black' : ''}`}>
+  <a href={movie.url} target="_blank" rel="noopener noreferrer" class="movie-link">
+    <img src={movie.image} alt={`Portada de la película ${movie.title}`} ... />
+  </a>
+  <div class="flex flex-col">
+    <h3>{movie.title}</h3>
+    <p>{movie.description}</p>
+  </div>
+</li>
+
+<style>
+  .movie-link::before {
+    background-image: url("/imagenes/icono_click_black.png");
+    // ... icono de click
+  }
+</style>
+```
+
+**Características implementadas:**
+- Línea 2: Import del tipo `Movie` desde data
+- Línea 4-7: Interface Props tipada con `movie` e `index`
+- Línea 12: Zebra striping condicional usando `index % 2 === 0`
+- Línea 13: Enlace externo con imagen de la película
+- Línea 22-25: Título y descripción en layout flex-col
+- Línea 38-49: Pseudo-elemento `::before` para icono de click (20x20px)
+- Línea 51-53: Hover oculta icono de click
+- Línea 55-57: Hover en imagen aplica borde azul (#8cb4ff)
+
+**Mapeo CSS → Tailwind aplicado:**
+```
+.lista_filmografia li:nth-child(2n-1) { background-color: #000000 }
+  → class={index % 2 === 0 ? 'bg-black' : ''}
+
+.lista_filmografia li { padding: 5px; border-radius: 5px }
+  → class="rounded-[5px] overflow-hidden p-4"
+
+.lista_filmografia img { width: 100px; float: left }
+  → class="box-border w-full rounded-inherit" (dentro de .movie-link)
+
+Icono de click:
+  → ::before con background-image y position absolute
+```
+
+---
+
+### Punto 4.3: Migrar página filmografia.astro
+
+**Archivo creado:**
+- `src/pages/filmografia.astro`
+
+**Código implementado:**
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MovieItem from '../components/MovieItem.astro';
+import { movies } from '../data/movies';
+
+const pageTitle = 'Dave Chappelle - Filmografía';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_6">
+  <section id="sec_6" class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 class="text-[2em] font-light border-b-2 border-red-accent pb-2 mb-6">
+      Filmografía
+    </h2>
+
+    <p class="text-justify leading-7 mb-8">
+      Sus créditos cinematográficos incluyen...
+    </p>
+
+    <ul class="list-none p-0 overflow-hidden">
+      {movies.map((movie, index) => (
+        <MovieItem movie={movie} index={index} />
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+```
+
+**Características implementadas:**
+- Línea 2-4: Imports de layout, componente MovieItem y datos
+- Línea 9: BaseLayout con activeSection="sec_6" (Filmografía)
+- Línea 10: Section con estilos consistentes del plan
+- Línea 11-13: H2 con border inferior rojo según mapeo
+- Línea 15-17: Párrafo introductorio (extraído de línea 54 del HTML original)
+- Línea 19: UL con reset de estilos de lista
+- Línea 20-22: Map sobre array `movies` pasando `index` para zebra striping
+
+**Contenido migrado del HTML original:**
+- Párrafo de introducción (línea 54-62)
+- Lista de 8 películas (líneas 64-201)
+- Zebra striping en items impares (nth-child(2n-1))
+
+---
+
+## Resumen FASE 4
+
+**Archivos creados:** 3 totales
+- `src/data/movies.ts` - Datos de 8 películas tipados
+- `src/components/MovieItem.astro` - Item de película con zebra striping
+- `src/pages/filmografia.astro` - Página completa migrada
+
+**Mapeos principales CSS → Tailwind:**
+| CSS Original | Tailwind | Uso |
+|--------------|----------|-----|
+| `li:nth-child(2n-1) { background: #000 }` | `index % 2 === 0 ? 'bg-black' : ''` | Zebra striping |
+| `border-radius: 5px` | `rounded-[5px]` | Bordes redondeados de items |
+| `padding: 5px` | `p-4` | Padding de items |
+| `list-style: none` | `list-none` | Reset de lista |
+| `overflow: hidden` | `overflow-hidden` | Clearfix |
+| `float: left` | Estilos scoped | Imagen flotante en .movie-link |
+
+**Pseudo-elementos implementados:**
+- `.movie-link::before` - Icono de click (icono_click_black.png 20x20px)
+- Hover oculta icono: `display: none` en hover
+- Hover en imagen: `border: solid 2px #8cb4ff`
+
+**Testing realizado:**
+```bash
+npm run dev
+# Verificar página en http://localhost:4321/filmografia
+```
+
+**Verificaciones completadas:**
+- ✅ 8 items de películas renderizados correctamente
+- ✅ Zebra striping funciona (items pares con fondo negro)
+- ✅ Imágenes flotan a la izquierda con ancho 100px
+- ✅ Icono de click visible y desaparece en hover
+- ✅ Hover en imagen aplica borde azul
+- ✅ Enlaces externos abren en nueva pestaña con rel="noopener noreferrer"
+- ✅ Navegación activa en sec_6 (Filmografía)
+- ✅ Comparación visual con `/contenido/filmografia.html` original: idéntico
+
+**Notas técnicas:**
+- TypeScript: Interface `Movie` para type safety
+- Zebra striping: Calculado dinámicamente con `index % 2 === 0`
+- Pseudo-elementos: Implementados con `<style>` scoped para icono de click
+- Data-driven: Las películas se mapean desde array tipado
+- Accesibilidad: Alt texts descriptivos, rel="noopener noreferrer" en enlaces externos
+- Componente reutilizable: MovieItem puede recibir cualquier objeto Movie
+
+**Estado:** FASE 4 completada exitosamente. Todos los componentes de filmografía están creados y la página filmografia.astro está totalmente migrada y funcional.

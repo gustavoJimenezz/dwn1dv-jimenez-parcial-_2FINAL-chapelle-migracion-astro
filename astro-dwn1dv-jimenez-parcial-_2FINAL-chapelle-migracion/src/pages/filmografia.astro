@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MovieItem from '../components/MovieItem.astro';
+import { movies } from '../data/movies';
+
+const pageTitle = 'Dave Chappelle - Filmografía';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_6">
+  <section id="sec_6" class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 class="text-[2em] font-light border-b-2 border-red-accent pb-2 mb-6">
+      Filmografía
+    </h2>
+
+    <p class="text-justify leading-7 mb-8">
+      Sus créditos cinematográficos incluyen "Chi-Raq" de Spike Lee, "El hermano secreto",
+      "Screwed", "De ladrón a policía", "200 cigarrillos", "Tienes un e-mail", "Woo", "Medio
+      flipado (Half Baked)", "Una rubia auténtica", "Con Air (Convictos en el aire)", "El cuchitril
+      de Joe", "El profesor chiflado", "Getting In", "Cuidado con la familia Blue" y "Las locas,
+      locas aventuras de Robin Hood".
+    </p>
+
+    <ul class="list-none p-0 overflow-hidden">
+      {movies.map((movie, index) => (
+        <MovieItem movie={movie} index={index} />
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
