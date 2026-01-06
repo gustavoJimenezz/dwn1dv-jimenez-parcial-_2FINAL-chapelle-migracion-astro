@@ -1176,6 +1176,234 @@ section { max-width: 750px; margin: auto; padding: 50px 0px }
 
 ---
 
+## FASE 5: COMPONENTES DE NETFLIX Y PÁGINAS DE CONTENIDO
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-06
+**Duración:** 2 horas
+**Complejidad:** MEDIA
+**Dependencia:** FASE 2
+
+### Objetivo
+Crear componentes para especiales de Netflix, figuras con caption, blockquotes, y migrar las 4 páginas restantes de contenido (el-regreso, carrera-temprana, el-final-del-show, buddies).
+
+---
+
+### Punto 5.1: Datos Netflix
+
+**Archivo creado:**
+- `src/data/netflix-specials.ts`
+
+**Líneas principales:**
+- Línea 1-6: Interface `NetflixSpecial` con propiedades id, title, year, image, url
+- Línea 8-42: Array de 4 especiales extraídos de el_regreso.html
+
+**Código clave:**
+```typescript
+export interface NetflixSpecial {
+  id: number;
+  title: string;
+  year: string;
+  image: string;
+  url: string;
+}
+
+export const netflixSpecials: NetflixSpecial[] = [
+  { id: 1, title: "The Age of Spin", year: "2017", ... },
+  // ... 3 más
+];
+```
+
+**Especiales incluidos:** The Age of Spin, Equanimity, The Bird Revelation, Deep in the Heart of Texas
+
+---
+
+### Punto 5.2: Galería Netflix
+
+**Archivo creado:**
+- `src/components/NetflixGallery.astro`
+
+**Líneas principales:**
+- Línea 2: Import de type NetflixSpecial
+- Línea 4-6: Props interface con array de especiales
+- Línea 11-22: Template flex-wrap con map sobre especiales
+- Línea 24-62: Estilos scoped (display flex, hover outline azul, icono click)
+
+**Código clave:**
+```astro
+<div class="especiales-netflix">
+  {specials.map((special) => (
+    <a href={special.url} target="_blank" rel="noopener noreferrer">
+      <img src={special.image} alt={`Dave presentando ${special.title}`} />
+    </a>
+  ))}
+</div>
+```
+
+**Estilos scoped implementados:**
+- Hover con outline azul (#8cb4ff) de 2px
+- Icono de click con pseudo-elemento ::before
+- Icono desaparece en hover
+
+---
+
+### Punto 5.3: Figura con Caption
+
+**Archivo creado:**
+- `src/components/FigureWithCaption.astro`
+
+**Líneas principales:**
+- Línea 2-9: Props interface (src, alt, width, height, caption, captionLang opcional)
+- Línea 14-17: HTML5 figure + figcaption
+- Línea 19-38: Estilos scoped (border-radius 10px, figcaption con bg rojo #ff0213)
+
+**Código clave:**
+```astro
+<figure>
+  <img src={src} alt={alt} width={width} height={height} />
+  <figcaption lang={captionLang}>{caption}</figcaption>
+</figure>
+```
+
+**Estilos:** Figcaption con fondo rojo, text-shadow para legibilidad, imagen width 100%
+
+---
+
+### Punto 5.4.1: Migrar página el-regreso.astro
+
+**Archivo creado:**
+- `src/pages/el-regreso.astro`
+
+**Líneas principales:**
+- Línea 2-4: Imports de BaseLayout, NetflixGallery y datos
+- Línea 9: BaseLayout con activeSection="sec_5"
+- Línea 10: Section con max-w-[750px] mx-auto py-12 px-4
+- Línea 25: Componente NetflixGallery con 4 especiales
+- Línea 48-56: iframe YouTube embebido
+
+**Código clave:**
+```astro
+<NetflixGallery specials={netflixSpecials} />
+
+<iframe
+  src="https://www.youtube.com/embed/--IS0XiNdpk"
+  class="rounded-md my-6 max-w-full"
+></iframe>
+```
+
+**Enlaces externos:** Saturday Night Live (Wikipedia y YouTube)
+
+---
+
+### Punto 5.4.2: Migrar página carrera-temprana.astro
+
+**Archivo creado:**
+- `src/pages/carrera-temprana.astro`
+
+**Líneas principales:**
+- Línea 2-3: Imports de BaseLayout y FigureWithCaption
+- Línea 9: BaseLayout con activeSection="sec_2"
+- Línea 14-23: Imagen flotante derecha (300px, mt-[15px] ml-[15px])
+- Línea 26-37: Imagen flotante izquierda (300px, mt-[15px] mr-[15px])
+- Línea 58-64: Componente FigureWithCaption para Robin Hood
+
+**Código clave:**
+```astro
+<img class="float-right w-[300px] mt-[15px] ml-[15px]" />
+<img class="float-left w-[300px] mt-[15px] mr-[15px]" />
+<FigureWithCaption
+  caption={'"Robin Hood: Men in Tights" a Mel Brooks films.'}
+  captionLang="en"
+/>
+```
+
+---
+
+### Punto 5.4.3: Migrar página el-final-del-show.astro
+
+**Archivos creados:**
+- `src/components/Blockquote.astro`
+- `src/pages/el-final-del-show.astro`
+
+**Componente Blockquote - Líneas principales:**
+- Línea 2-5: Props con cite opcional y content
+- Línea 10: Blockquote con clases Tailwind (italic mr-0 p-[0.8px] my-5)
+
+**Página - Líneas principales:**
+- Línea 1-4: Imports de layout, FigureWithCaption y Blockquote
+- Línea 38-45: FigureWithCaption para imagen CBS
+- Línea 63-66: Componente Blockquote con cita larga
+
+**Código clave:**
+```astro
+<Blockquote
+  cite="https://www.cbsnews.com/news/..."
+  content="Bueno, quiero decir, si me miras..."
+/>
+```
+
+**Elementos semánticos:** `<q>` para citas cortas, `<blockquote>` para citas largas
+
+---
+
+### Punto 5.4.4: Migrar página buddies.astro
+
+**Archivo creado:**
+- `src/pages/buddies.astro`
+
+**Líneas principales:**
+- Línea 6: BaseLayout con activeSection="sec_7"
+- Línea 12-18: Logo Buddies (w-[700px] max-w-full)
+- Línea 64-73: Imagen flotante 150px dentro de párrafo
+- Línea 103-117: iframe YouTube con start=40
+- Línea 131-145: Contenedor de imágenes superpuestas (relative/absolute)
+
+**Código clave:**
+```astro
+<img class="float-left w-[150px] my-[5px] mx-[10px] rounded-[10px]" />
+
+<div class="relative w-[250px] mx-auto my-5">
+  <img class="block w-full rounded-[10px]" />
+  <img class="absolute block w-full top-0 rounded-[5px]" />
+</div>
+```
+
+**Enlaces externos:** 8 enlaces a Wikipedia (creadores, actores, series)
+
+---
+
+## Resumen FASE 5
+
+**Archivos creados:** 8 totales
+- 1 dato: netflix-specials.ts
+- 3 componentes: NetflixGallery.astro, FigureWithCaption.astro, Blockquote.astro
+- 4 páginas: el-regreso, carrera-temprana, el-final-del-show, buddies
+
+**Comandos ejecutados:**
+```bash
+npm install
+```
+
+**Características implementadas:**
+- ✅ Galería Netflix con hover outline azul + icono de click
+- ✅ Figure reutilizable con caption rojo
+- ✅ Blockquote para citas largas
+- ✅ 2 iframes YouTube embebidos
+- ✅ Imágenes flotantes (left/right)
+- ✅ Superposición de imágenes (relative/absolute)
+- ✅ Enlaces externos con rel="noopener noreferrer"
+- ✅ Elementos HTML5: `<figure>`, `<figcaption>`, `<blockquote>`, `<q>`, `<abbr>`
+
+**Decisiones técnicas:**
+- Estilos scoped para pseudo-elementos (::before) y hovers complejos
+- Componente Blockquote adicional para reutilización
+- Preservación de iframes del HTML original
+- Imágenes superpuestas con position relative/absolute
+
+**Estado:** FASE 5 completada exitosamente. Componentes de Netflix y 4 páginas de contenido migradas.
+
+
+
 ## FASE 6: FORMULARIO
 
 **Estado:** ✅ Completada
