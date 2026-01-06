@@ -22,7 +22,7 @@ const {
 } = Astro.props;
 ---
 
-<label for={id} class="hidden">{placeholder || name}</label>
+<label for={id} class="sr-only">{placeholder || name}</label>
 <input
   type={type}
   name={name}

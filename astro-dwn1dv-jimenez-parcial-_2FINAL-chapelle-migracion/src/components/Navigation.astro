@@ -37,5 +37,11 @@ const { activeSection } = Astro.props;
     position: relative;
   }
 
-  /* Animación de página activada - se implementará en FASE 7 con keyframes en global.css */
+  /* FASE 7.2: Animación de página activada */
+  .pagina-activada::after {
+    content: "";
+    display: block;
+    width: 100%;
+    animation: 6s infinite ease-in-out mianimacion;
+  }
 </style>

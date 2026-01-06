@@ -1,12 +1,29 @@
 ---
+/**
+ * FASE 7.3: Componente Blockquote
+ * Componente reutilizable para citas y bloques de texto destacado
+ * Aplica estilos itálicos según el CSS original
+ */
+
 interface Props {
+  /**
+   * URL de la fuente de la cita (opcional)
+   */
   cite?: string;
-  content: string;
+  /**
+   * Autor de la cita (opcional)
+   */
+  author?: string;
+  /**
+   * Clases adicionales de Tailwind (opcional)
+   */
+  class?: string;
 }
 
-const { cite, content } = Astro.props;
+const { cite, author, class: className } = Astro.props;
 ---
 
-<blockquote cite={cite} class="italic mr-0 p-[0.8px] my-5 leading-relaxed">
-  {content}
+<blockquote cite={cite} class={`italic mr-0 p-2 my-5 leading-relaxed ${className || ''}`}>
+  <slot />
+  {author && <footer class="text-right mt-2 not-italic text-sm">— {author}</footer>}
 </blockquote>

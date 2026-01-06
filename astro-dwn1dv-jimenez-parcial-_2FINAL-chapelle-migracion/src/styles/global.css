@@ -9,3 +9,46 @@
 
   --font-family-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
 }
+
+/* FASE 7.1: Animaciones y estilos globales */
+
+/* Animación para navegación activa */
+@keyframes mianimacion {
+  0% {
+    border-bottom: 2px solid #ff0213;
+  }
+  50% {
+    border-bottom: 2px solid #f76c75;
+    box-shadow: 0px 0px 8px #ff3744;
+  }
+  100% {
+    border-bottom: 2px solid #ff0213;
+    box-shadow: 0px 0px 0px #ff3744;
+  }
+}
+
+/* Estilos globales para blockquote */
+blockquote {
+  font-style: italic;
+  margin-right: 0;
+  padding: 0.8em;
+}
+
+/* Estilos globales para abbr */
+abbr {
+  text-decoration: none;
+  color: #b9d0fc;
+}
+
+/* FASE 7.5: Accesibilidad - Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
