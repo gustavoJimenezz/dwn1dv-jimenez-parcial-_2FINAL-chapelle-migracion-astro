@@ -1,2 +1,6 @@
 # worktree
 .tree/
+
+# configuracione local claude
+.claude
+.claude/*
