@@ -1,0 +1,24 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  placeholder?: string;
+  maxlength?: number;
+}
+
+const {
+  id,
+  name,
+  placeholder,
+  maxlength
+} = Astro.props;
+---
+
+<label for={id} class="hidden">{placeholder || name}</label>
+<textarea
+  id={id}
+  name={name}
+  placeholder={placeholder}
+  maxlength={maxlength}
+  class="bg-dark-bg text-white mb-2.5 min-h-[200px] border-none border-b border-red-accent p-3"
+></textarea>

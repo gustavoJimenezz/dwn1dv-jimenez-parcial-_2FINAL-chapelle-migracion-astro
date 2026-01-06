@@ -1,0 +1,36 @@
+---
+interface Props {
+  type?: 'text' | 'email' | 'date';
+  name: string;
+  id: string;
+  placeholder?: string;
+  required?: boolean;
+  min?: string;
+  max?: string;
+  value?: string;
+}
+
+const {
+  type = 'text',
+  name,
+  id,
+  placeholder,
+  required = false,
+  min,
+  max,
+  value
+} = Astro.props;
+---
+
+<label for={id} class="hidden">{placeholder || name}</label>
+<input
+  type={type}
+  name={name}
+  id={id}
+  placeholder={placeholder}
+  required={required}
+  min={min}
+  max={max}
+  value={value}
+  class="bg-dark-bg text-white mb-2.5 min-h-[30px] border-none border-b border-red-accent p-3"
+/>
