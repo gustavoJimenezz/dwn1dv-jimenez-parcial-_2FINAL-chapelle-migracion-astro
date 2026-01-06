@@ -960,3 +960,640 @@ p { text-align: justify }
 
 **Estado:** FASE 3 completada exitosamente. La página chapelle-show.astro está migrada con componentes reutilizables para personajes y galerías de GIFs con layout complejo.
 
+---
+
+## FASE 4: COMPONENTES DE FILMOGRAFÍA
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-05
+**Duración:** 1.5 horas
+**Complejidad:** MEDIA-ALTA
+**Dependencia:** FASE 2
+
+### Objetivo
+Crear componente de filmografía con datos externos tipados, implementando zebra striping (filas alternas) y pseudo-elementos para iconos.
+
+---
+
+### Punto 4.1: Externalizar datos de películas
+
+**Archivo creado:**
+- `src/data/movies.ts`
+
+**Código implementado:**
+```typescript
+export interface Movie {
+  id: number;
+  title: string;
+  year: string;
+  image: string;
+  url: string;
+  description: string;
+}
+
+export const movies: Movie[] = [
+  {
+    id: 1,
+    title: 'Robin Hood: Men in Tights',
+    year: '1993',
+    image: '/imagenes/robin_hood_dave.jpg',
+    url: 'https://www.imdb.com/title/tt0107977/',
+    description: 'Parodia de la historia de Robin Hood...'
+  },
+  // ... 6 películas más
+];
+```
+
+**Características:**
+- Línea 1-7: Interface `Movie` con 7 propiedades tipadas
+- Línea 9: Export de array `movies` con 7 películas
+- Datos extraídos de `/contenido/filmografia.html` (líneas 52-152 del original)
+- Películas incluidas: Robin Hood (1993), The Nutty Professor (1996), Con Air (1997), Half Baked (1998), You've Got Mail (1998), Blue Streak (1999), Undercover Brother (2002)
+
+---
+
+### Punto 4.2: Crear componente MovieItem.astro
+
+**Archivo creado:**
+- `src/components/MovieItem.astro`
+
+**Código implementado:**
+```astro
+---
+import type { Movie } from '../data/movies';
+
+interface Props {
+  movie: Movie;
+  index: number;
+}
+
+const { movie, index } = Astro.props;
+---
+
+<li class={`overflow-auto mb-2.5 p-2.5 relative ${index % 2 === 0 ? 'bg-black' : ''}`}>
+  <a href={movie.url} target="_blank" rel="noopener noreferrer" class="block no-underline text-white">
+    <img
+      src={movie.image}
+      alt={`Poster de ${movie.title}`}
+      class="w-[100px] h-auto float-left mr-4"
+    />
+    <h4 class="text-lg font-light mb-2">
+      {movie.title} ({movie.year})
+    </h4>
+    <p class="leading-7 text-justify">
+      {movie.description}
+    </p>
+  </a>
+</li>
+
+<style>
+  /* Icono de click en esquina superior derecha */
+  a::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background-image: url('/imagenes/icono_click_black.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  a:hover::before {
+    display: none;
+  }
+</style>
+```
+
+**Características implementadas:**
+- Línea 2: Import del type `Movie` desde datos externos
+- Línea 4-7: Interface Props con movie y index para zebra striping
+- Línea 12: Zebra striping condicional con operador módulo (index % 2 === 0)
+- Línea 13: Enlace externo con rel="noopener noreferrer"
+- Línea 14-17: Imagen flotante a la izquierda con ancho fijo 100px
+- Línea 27-40: Pseudo-elemento ::before para icono de click (position absolute)
+- Línea 42-44: Hover oculta el icono (display: none)
+
+**Mapeo CSS → Tailwind:**
+```
+.lista_filmografia li { overflow: auto; margin-bottom: 10px; padding: 10px }
+  → overflow-auto mb-2.5 p-2.5
+
+.lista_filmografia li:nth-child(2n-1) { background-color: #000000 }
+  → index % 2 === 0 ? 'bg-black' : ''
+
+.lista_filmografia img { width: 100px; float: left }
+  → w-[100px] float-left mr-4
+
+position: relative → relative
+```
+
+---
+
+### Punto 4.3: Migrar página filmografia.astro
+
+**Archivo creado:**
+- `src/pages/filmografia.astro`
+
+**Código principal:**
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MovieItem from '../components/MovieItem.astro';
+import { movies } from '../data/movies';
+
+const pageTitle = 'Filmografía - Dave Chappelle';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_6">
+  <section id="sec_6" class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent">
+      Filmografía
+    </h2>
+
+    <p class="leading-7 mb-8 text-justify">
+      <!-- Párrafo introductorio -->
+    </p>
+
+    <ul class="list-none p-0">
+      {movies.map((movie, index) => (
+        <MovieItem movie={movie} index={index} />
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+```
+
+**Características implementadas:**
+- Línea 2-4: Imports de layout, componente y datos
+- Línea 9: BaseLayout con activeSection "sec_6"
+- Línea 10: Section con max-w-[750px]
+- Línea 11-13: H2 con border-bottom rojo
+- Línea 19-23: UL con map sobre movies pasando index para zebra striping
+- Párrafo con enlaces externos a IMDB y Wikipedia
+
+**Mapeo CSS → Tailwind aplicado:**
+```
+ul.lista_filmografia { list-style: none; padding: 0px }
+  → list-none p-0
+
+section { max-width: 750px; margin: auto; padding: 50px 0px }
+  → max-w-[750px] mx-auto py-12 px-4
+```
+
+---
+
+## Resumen FASE 4
+
+**Archivos creados:** 3 totales
+- `src/data/movies.ts` - 7 películas con interface tipada
+- `src/components/MovieItem.astro` - Item reutilizable con zebra striping
+- `src/pages/filmografia.astro` - Página completa migrada
+
+**Películas migradas:** 7
+1. Robin Hood: Men in Tights (1993)
+2. The Nutty Professor (1996)
+3. Con Air (1997)
+4. Half Baked (1998)
+5. You've Got Mail (1998)
+6. Blue Streak (1999)
+7. Undercover Brother (2002)
+
+**Técnicas implementadas:**
+- **Zebra striping:** Filas alternas con background negro usando `index % 2 === 0`
+- **Pseudo-elementos CSS:** Icono ::before en esquina superior derecha
+- **Hover effects:** Ocultar icono en hover con `display: none`
+- **Position relative/absolute:** Para posicionamiento de icono
+
+**Mapeos CSS → Tailwind clave:**
+- Zebra striping: Lógica condicional en className
+- Float left con imágenes de 100px: `w-[100px] float-left mr-4`
+- Overflow auto para clearfix: `overflow-auto`
+- Lista sin estilos: `list-none p-0`
+
+**Estado:** FASE 4 completada exitosamente. La página filmografia.astro está migrada con componente reutilizable MovieItem implementando zebra striping y pseudo-elementos para iconos.
+
+---
+
+## FASE 6: FORMULARIO
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-06
+**Duración:** 1.5 horas
+**Complejidad:** MEDIA-ALTA
+**Dependencia:** FASE 1
+
+### Objetivo
+Migrar formulario de suscripción con componentes reutilizables de formulario y datos tipados externos.
+
+---
+
+### Punto 6.1: Crear componentes de formulario
+
+#### Archivo: `src/components/forms/TextInput.astro`
+
+**Código implementado:**
+```astro
+---
+interface Props {
+  type?: 'text' | 'email' | 'date';
+  name: string;
+  id: string;
+  placeholder?: string;
+  required?: boolean;
+  min?: string;
+  max?: string;
+  value?: string;
+}
+
+const { type = 'text', name, id, placeholder, required = false, min, max, value } = Astro.props;
+---
+
+<label for={id} class="hidden">{placeholder || name}</label>
+<input
+  type={type}
+  name={name}
+  id={id}
+  placeholder={placeholder}
+  required={required}
+  min={min}
+  max={max}
+  value={value}
+  class="bg-dark-bg text-white mb-2.5 min-h-[30px] border-none border-b border-red-accent p-3"
+/>
+```
+
+**Características:**
+- Línea 2-11: Interface Props con tipos de input ('text' | 'email' | 'date')
+- Línea 16: Label oculto visualmente para accesibilidad
+- Línea 26: Clases Tailwind aplicando mapeo del plan
+
+**Mapeo CSS → Tailwind:**
+```
+background-color: #0e0f13 → bg-dark-bg
+border-bottom: 1px solid #ff0213 → border-b border-red-accent
+min-height: 30px → min-h-[30px]
+padding: 0.8em → p-3
+```
+
+---
+
+#### Archivo: `src/components/forms/TextArea.astro`
+
+**Código implementado:**
+```astro
+---
+interface Props {
+  id: string;
+  name: string;
+  placeholder?: string;
+  maxlength?: number;
+}
+
+const { id, name, placeholder, maxlength } = Astro.props;
+---
+
+<label for={id} class="hidden">{placeholder || name}</label>
+<textarea
+  id={id}
+  name={name}
+  placeholder={placeholder}
+  maxlength={maxlength}
+  class="bg-dark-bg text-white mb-2.5 min-h-[200px] border-none border-b border-red-accent p-3"
+></textarea>
+```
+
+**Características:**
+- Línea 18: min-h-[200px] según CSS original
+- Mismo mapeo de colores y bordes que TextInput
+
+---
+
+#### Archivo: `src/components/forms/Select.astro`
+
+**Código implementado:**
+```astro
+---
+import type { FormOption } from '../../data/form-options';
+
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  options: FormOption[];
+}
+
+const { id, name, label, options } = Astro.props;
+---
+
+<label for={id} class="hidden">{label}</label>
+<select
+  id={id}
+  name={name}
+  class="w-full min-h-[40px] rounded-md bg-dark-bg text-white border-none p-2"
+>
+  {options.map(option => (
+    <option value={option.value}>{option.label}</option>
+  ))}
+</select>
+```
+
+**Características:**
+- Línea 2: Import del type FormOption desde datos externos
+- Línea 8: Prop options como array de FormOption
+- Línea 18: min-h-[40px] y rounded-md según CSS original
+- Línea 20-22: Map sobre options para generar elementos option
+
+**Mapeo CSS → Tailwind:**
+```
+width: 100% → w-full
+min-height: 40px → min-h-[40px]
+border-radius: 5px → rounded-md
+```
+
+---
+
+#### Archivo: `src/components/forms/Checkbox.astro`
+
+**Código implementado:**
+```astro
+---
+interface Props {
+  id: string;
+  name: string;
+  value: string;
+  label: string;
+  checked?: boolean;
+}
+
+const { id, name, value, label, checked = false } = Astro.props;
+---
+
+<div class="inline-flex items-center align-middle">
+  <input
+    type="checkbox"
+    id={id}
+    name={name}
+    value={value}
+    checked={checked}
+    class="inline w-auto align-middle"
+  />
+  <label for={id} class="inline w-auto align-middle ml-2">{label}</label>
+</div>
+```
+
+**Características:**
+- Línea 13: Contenedor inline-flex para alineación
+- Línea 20: Input checkbox inline
+- Línea 22: Label visible (no oculto) con margin-left
+
+**Mapeo CSS → Tailwind:**
+```
+display: inline → inline
+vertical-align: middle → align-middle
+width: inherit → w-auto
+```
+
+---
+
+### Punto 6.2: Crear datos tipados del formulario
+
+**Archivo creado:**
+- `src/data/form-options.ts`
+
+**Código implementado:**
+```typescript
+export interface FormOption {
+  value: string;
+  label: string;
+}
+
+export const sectionOptions: FormOption[] = [
+  { value: 'Introducción', label: 'Introducción' },
+  { value: 'Carrera temprana', label: 'Carrera temprana' },
+  { value: 'Chappelle´s show', label: 'Chappelle´s show' },
+  { value: 'El final del show', label: 'El final del show' },
+  { value: 'El regreso', label: 'El regreso' },
+  { value: 'Filmografia', label: 'Filmografia' },
+  { value: 'Buddies (1996)', label: 'Buddies (1996)' }
+];
+
+export interface FavoriteSpecial {
+  id: string;
+  name: string;
+  value: string;
+  label: string;
+  checked: boolean;
+}
+
+export const favoriteSpecials: FavoriteSpecial[] = [
+  {
+    id: 'the_age_of_spin',
+    name: 'especiales_favoritos[]',
+    value: 'the_age_of_spin',
+    label: '"The Age of Spin"',
+    checked: true
+  },
+  {
+    id: 'equanimity',
+    name: 'especiales_favoritos[]',
+    value: 'equanimity',
+    label: '"Equanimity"',
+    checked: false
+  },
+  {
+    id: 'the_bird_revelations',
+    name: 'especiales_favoritos[]',
+    value: 'the_bird_revelations',
+    label: '"The Bird Revelations"',
+    checked: true
+  },
+  {
+    id: 'the_heart_of_texas',
+    name: 'especiales_favoritos[]',
+    value: 'the_heart_of_texas',
+    label: '"Deep in the Heart of Texas"',
+    checked: true
+  }
+];
+```
+
+**Características:**
+- Línea 1-4: Interface `FormOption` para opciones de select
+- Línea 6-14: Array `sectionOptions` con 7 secciones de la página
+- Línea 16-22: Interface `FavoriteSpecial` con propiedades completas
+- Línea 24-52: Array `favoriteSpecials` con 4 especiales Netflix (3 marcados por defecto)
+
+**Datos tipados incluidos:**
+- **7 opciones de sección:** Introducción, Carrera temprana, Chappelle's show, El final del show, El regreso, Filmografia, Buddies
+- **4 checkboxes especiales:** The Age of Spin (✓), Equanimity, The Bird Revelations (✓), Deep in the Heart of Texas (✓)
+
+---
+
+### Punto 6.3: Migrar página suscripcion.astro
+
+**Archivo creado:**
+- `src/pages/suscripcion.astro`
+
+**Código principal:**
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TextInput from '../components/forms/TextInput.astro';
+import TextArea from '../components/forms/TextArea.astro';
+import Select from '../components/forms/Select.astro';
+import Checkbox from '../components/forms/Checkbox.astro';
+import { sectionOptions, favoriteSpecials } from '../data/form-options';
+
+const pageTitle = 'Dave Chappelle - Suscripción';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_7">
+  <main class="max-w-[750px] mx-auto">
+    <form action="datos_a_procesar.php" method="post" autocomplete="off"
+          class="text-white" style="color-scheme: dark;">
+      <fieldset class="flex flex-col my-12 bg-black border-none p-6">
+        <h2 class="text-2xl font-light mb-6 pb-2 border-b-2 border-red-accent">
+          Datos Personales
+        </h2>
+
+        <TextInput type="text" name="apellido" id="apellido"
+                   placeholder="apellido" required={true} />
+
+        <TextInput type="text" name="nombre" id="nombre"
+                   placeholder="nombre" required={true} />
+
+        <div class="flex flex-row-reverse gap-10 my-4">
+          <div class="flex-1">
+            <TextInput type="email" name="pass" id="pass"
+                       placeholder="e-Mail" required={true} />
+          </div>
+          <div class="flex-1">
+            <TextInput type="date" name="nacimiento" id="nacimiento"
+                       min="1950-01-01" max="2020-01-01"
+                       value="1995-10-17" required={true} />
+          </div>
+        </div>
+
+        <h3 class="my-5 mx-auto ml-[5px] text-left font-light">
+          Dejanos tu opinion..
+        </h3>
+
+        <TextArea id="texto_opinion" name="texto_opinion"
+                  placeholder="Mensaje" maxlength={300} />
+
+        <div class="flex flex-row-reverse justify-center gap-10 my-5">
+          <div class="flex-1">
+            <span class="block my-5">
+              ¿que seccion de la pagina te gusto mas?
+            </span>
+            <Select id="seccion_preferida" name="seccion_preferida"
+                    label="¿que seccion de la pagina te gusto mas?"
+                    options={sectionOptions} />
+          </div>
+
+          <div class="flex-1">
+            <span class="block my-5">
+              ¿Cual fue tu especial de Netflix favorito ?
+            </span>
+            {favoriteSpecials.map(special => (
+              <div class="mb-2">
+                <Checkbox id={special.id} name={special.name}
+                          value={special.value} label={special.label}
+                          checked={special.checked} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <input type="submit" value="Enviar"
+               class="cursor-pointer w-auto rounded-[3px] my-2.5 mx-auto
+                      border-none p-3 font-light bg-dark-bg text-white
+                      hover:bg-gradient-radial transition-all duration-300" />
+      </fieldset>
+    </form>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Gradient hover effect for submit button */
+  input[type="submit"]:hover {
+    background: radial-gradient(
+      circle,
+      rgba(35, 38, 48, 1) 72%,
+      rgba(14, 15, 19, 1) 88%,
+      rgba(14, 15, 19, 1) 97%
+    );
+  }
+</style>
+```
+
+**Características implementadas:**
+- Línea 2-7: Imports de componentes de formulario y datos
+- Línea 12: BaseLayout con activeSection "sec_7"
+- Línea 14-15: Form con color-scheme: dark para inputs de fecha
+- Línea 16: Fieldset con flex flex-col y bg-black
+- Línea 17-18: H2 con border-bottom rojo
+- Línea 20-24: Campos de texto (apellido, nombre)
+- Línea 26-35: Div con flex-row-reverse para email y fecha (layout original)
+- Línea 37-39: H3 con estilos específicos
+- Línea 41-42: TextArea con maxlength 300
+- Línea 44-65: Div con dos columnas (select y checkboxes)
+- Línea 67-70: Submit button con gradient hover
+- Línea 76-84: Estilos scoped para radial-gradient en hover
+
+**Mapeo CSS → Tailwind aplicado:**
+```
+fieldset { display: flex; flex-direction: column; background-color: black }
+  → flex flex-col bg-black
+
+.email_fecha_nacimiento { display: flex; flex-direction: row-reverse; gap: 40px }
+  → flex flex-row-reverse gap-10
+
+.preguntas_opcionales { display: flex; flex-direction: row-reverse;
+                        justify-content: center; gap: 40px }
+  → flex flex-row-reverse justify-center gap-10
+
+[type="submit"] { cursor: pointer; border-radius: 3px; font-weight: 300 }
+  → cursor-pointer rounded-[3px] font-light
+```
+
+---
+
+## Resumen FASE 6
+
+**Archivos creados:** 6 totales
+- `src/components/forms/TextInput.astro` - Input reutilizable (text, email, date)
+- `src/components/forms/TextArea.astro` - Textarea reutilizable
+- `src/components/forms/Select.astro` - Select reutilizable
+- `src/components/forms/Checkbox.astro` - Checkbox reutilizable
+- `src/data/form-options.ts` - Datos tipados (7 secciones + 4 especiales)
+- `src/pages/suscripcion.astro` - Página completa migrada
+
+**Componentes de formulario implementados:** 4
+1. **TextInput** - Soporta type='text'|'email'|'date' con props completas
+2. **TextArea** - Con maxlength y label oculto
+3. **Select** - Con options tipadas desde datos externos
+4. **Checkbox** - Con label visible y soporte para checked
+
+**Datos externos tipados:**
+- **sectionOptions:** 7 opciones de secciones de la página
+- **favoriteSpecials:** 4 especiales Netflix (3 marcados por defecto)
+
+**Técnicas implementadas:**
+- **Labels ocultos:** `class="hidden"` para accesibilidad sin mostrar visualmente
+- **Flex-row-reverse:** Layout específico del diseño original
+- **Radial gradient hover:** Efecto complejo en submit button
+- **Color-scheme: dark:** Para inputs de fecha con calendario oscuro
+- **Props tipadas:** Interfaces TypeScript en todos los componentes
+
+**Mapeos CSS → Tailwind clave:**
+- Inputs: `bg-dark-bg border-b border-red-accent min-h-[30px] p-3`
+- Textarea: `min-h-[200px]`
+- Select: `w-full min-h-[40px] rounded-md`
+- Fieldset: `flex flex-col my-12 bg-black border-none p-6`
+- Layouts especiales: `flex-row-reverse gap-10`
+
+**Estado:** FASE 6 completada exitosamente. El formulario de suscripción está migrado con componentes reutilizables y datos externos tipados, preservando el diseño y funcionalidad del original.
+

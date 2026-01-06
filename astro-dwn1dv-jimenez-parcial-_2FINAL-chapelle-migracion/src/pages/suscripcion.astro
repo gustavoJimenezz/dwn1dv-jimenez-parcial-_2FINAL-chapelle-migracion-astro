@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TextInput from '../components/forms/TextInput.astro';
+import TextArea from '../components/forms/TextArea.astro';
+import Select from '../components/forms/Select.astro';
+import Checkbox from '../components/forms/Checkbox.astro';
+import { sectionOptions, favoriteSpecials } from '../data/form-options';
+
+const pageTitle = 'Dave Chappelle - Suscripción';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_7">
+  <main class="max-w-[750px] mx-auto">
+    <form
+      action="datos_a_procesar.php"
+      method="post"
+      autocomplete="off"
+      class="text-white"
+      style="color-scheme: dark;"
+    >
+      <fieldset class="flex flex-col my-12 bg-black border-none p-6">
+        <h2 class="text-2xl font-light mb-6 pb-2 border-b-2 border-red-accent">Datos Personales</h2>
+
+        <TextInput
+          type="text"
+          name="apellido"
+          id="apellido"
+          placeholder="apellido"
+          required={true}
+        />
+
+        <TextInput
+          type="text"
+          name="nombre"
+          id="nombre"
+          placeholder="nombre"
+          required={true}
+        />
+
+        <div class="flex flex-row-reverse gap-10 my-4">
+          <div class="flex-1">
+            <TextInput
+              type="email"
+              name="pass"
+              id="pass"
+              placeholder="e-Mail"
+              required={true}
+            />
+          </div>
+
+          <div class="flex-1">
+            <TextInput
+              type="date"
+              name="nacimiento"
+              id="nacimiento"
+              min="1950-01-01"
+              max="2020-01-01"
+              value="1995-10-17"
+              required={true}
+            />
+          </div>
+        </div>
+
+        <h3 class="my-5 mx-auto ml-[5px] text-left font-light">Dejanos tu opinion..</h3>
+
+        <TextArea
+          id="texto_opinion"
+          name="texto_opinion"
+          placeholder="Mensaje"
+          maxlength={300}
+        />
+
+        <div class="flex flex-row-reverse justify-center gap-10 my-5">
+          <div class="flex-1">
+            <span class="block my-5">
+              ¿que seccion de la pagina te gusto mas?
+            </span>
+
+            <Select
+              id="seccion_preferida"
+              name="seccion_preferida"
+              label="¿que seccion de la pagina te gusto mas?"
+              options={sectionOptions}
+            />
+          </div>
+
+          <div class="flex-1">
+            <span class="block my-5">
+              ¿Cual fue tu especial de Netflix favorito ?
+            </span>
+
+            {favoriteSpecials.map(special => (
+              <div class="mb-2">
+                <Checkbox
+                  id={special.id}
+                  name={special.name}
+                  value={special.value}
+                  label={special.label}
+                  checked={special.checked}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <input
+          type="submit"
+          value="Enviar"
+          class="cursor-pointer w-auto rounded-[3px] my-2.5 mx-auto border-none p-3 font-light bg-dark-bg text-white hover:bg-gradient-radial hover:from-[rgba(35,38,48,1)] hover:via-[rgba(14,15,19,1)] hover:to-[rgba(14,15,19,1)] transition-all duration-300"
+        />
+      </fieldset>
+    </form>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Gradient hover effect for submit button */
+  input[type="submit"]:hover {
+    background: radial-gradient(
+      circle,
+      rgba(35, 38, 48, 1) 72%,
+      rgba(14, 15, 19, 1) 88%,
+      rgba(14, 15, 19, 1) 97%
+    );
+  }
+</style>

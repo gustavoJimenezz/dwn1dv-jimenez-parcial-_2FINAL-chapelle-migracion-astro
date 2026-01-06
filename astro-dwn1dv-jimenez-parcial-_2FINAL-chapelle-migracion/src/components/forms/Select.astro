@@ -1,0 +1,28 @@
+---
+import type { FormOption } from '../../data/form-options';
+
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  options: FormOption[];
+}
+
+const {
+  id,
+  name,
+  label,
+  options
+} = Astro.props;
+---
+
+<label for={id} class="hidden">{label}</label>
+<select
+  id={id}
+  name={name}
+  class="w-full min-h-[40px] rounded-md bg-dark-bg text-white border-none p-2"
+>
+  {options.map(option => (
+    <option value={option.value}>{option.label}</option>
+  ))}
+</select>
