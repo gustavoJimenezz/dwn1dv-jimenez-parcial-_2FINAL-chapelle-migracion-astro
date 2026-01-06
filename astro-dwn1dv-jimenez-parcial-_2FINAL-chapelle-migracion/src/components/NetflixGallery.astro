@@ -1,0 +1,62 @@
+---
+import type { NetflixSpecial } from '../data/netflix-specials';
+
+interface Props {
+  specials: NetflixSpecial[];
+}
+
+const { specials } = Astro.props;
+---
+
+<div class="especiales-netflix">
+  {specials.map((special) => (
+    <a href={special.url} target="_blank" rel="noopener noreferrer" class="netflix-link">
+      <img
+        src={special.image}
+        alt={`Dave presentando ${special.title}`}
+        width="300"
+        height="418"
+        class="netflix-image"
+      />
+    </a>
+  ))}
+</div>
+
+<style>
+  .especiales-netflix {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .netflix-link {
+    position: relative;
+    flex: 1;
+    padding-top: 1em;
+  }
+
+  .netflix-image {
+    width: inherit;
+    border-radius: 5px;
+  }
+
+  .netflix-image:hover {
+    outline: solid 2px #8cb4ff;
+  }
+
+  .netflix-link::before {
+    position: absolute;
+    content: "";
+    display: block;
+    background-image: url("/imagenes/icono_click_black.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    bottom: 8px;
+    right: 45px;
+  }
+
+  .netflix-link:hover::before {
+    display: none;
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FigureWithCaption from '../components/FigureWithCaption.astro';
+import Blockquote from '../components/Blockquote.astro';
+
+const pageTitle = 'Dave Chappelle - El final del show';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_4">
+  <section class="max-w-[750px] mx-auto py-12 px-4 text-justify">
+    <h2 class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent">
+      EL final del show
+    </h2>
+
+    <p class="mb-5 leading-relaxed">
+      <strong>Dave Chappelle</strong> tuvo muchos exitos en su carrera temprana, pero fue
+      Espectaculo de <a
+        href="https://www.netflix.com/ar/title/70142413"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-link-blue hover:underline"
+        lang="en">Chappelle's Show</a
+      > eso lo convirtio en una estrella.
+    </p>
+
+    <p class="mb-5 leading-relaxed">
+      El comediante dejo el programa poco despues de que <a
+        href="https://en.wikipedia.org/wiki/Comedy_Central"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-link-blue hover:underline">Comedy Central</a
+      > le ofreciera 50 millones de dolares para hacer una tercera y cuarta temporada. El diria a la
+      copresentadora de <a
+        href="https://www.youtube.com/c/CBSMornings/videos"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-link-blue hover:underline"
+        lang="en">CBS This Morning</a
+      >, <a
+        href="https://es.wikipedia.org/wiki/Gayle_King"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-link-blue hover:underline"
+        lang="en">Gayle King</a
+      > en 2017 que, aunque estaba en un 'lugar muy exitoso', <q
+        >el contenido emocional del mismo no se parecia en nada a lo que imaginaba que deberia
+        sentirse el exito</q
+      >. Simplemente no se sentia bien. Su paz importaba mas que el dinero.
+    </p>
+
+    <FigureWithCaption
+      src="/imagenes/charla_cbs.jpg"
+      alt="entrevista en CBS"
+      width={700}
+      height={278}
+      caption="CBS This Morning 2017."
+      captionLang="en"
+    />
+
+    <p class="mb-5 leading-relaxed">
+      <q>Todo lo que se ha dicho es completamente falso. Tenemos la prensa mas irresponsable del mundo</q
+      >, aseguro a su vuelta <strong>Chappelle</strong>. <q
+        >Ademas, no bebo ni tomo drogas</q
+      >. Esto ocurrio en el 2005, cuando Chappelle tenia 32. Una semana despues de su
+      desaparicion, un periodista encontro a Chappelle junto a un grupo de amigos haciendo un tour
+      turistico por <em>Sudafrica</em>. A la semana siguiente pisaba suelo norteamericano,
+      comenzaba los preparativos de su boda con <strong>Elaine Mendoza</strong>(su esposa hasta el
+      dia de hoy) y se fue a vivir a una granja en el pueblo de <em lang="en">Yellow Springs</em>,
+      donde sigue siendo el mas ilustre de los apenas 3.500 vecinos. Alli ha criado a sus tres hijos.
+    </p>
+
+    <Blockquote
+      cite="https://www.cbsnews.com/news/dave-chappelle-netflix-comedy-fame-leaving-chappelles-show/"
+      content="Bueno, quiero decir, si me miras, bien, fisicamente, ahora, peso como 40 libras mas que cuando hice Chappelle's Show. Y la gente dice: '¿Como subiste todo ese peso?' Descansando, comiendo y prestandome atencion. Tengo relaciones reales con mis hijos, He viajado por todo el pais, de gira toda mi vida. Pero nunca vi nada. Ahora he visto todo. Podia hablar con la gente o podia, tenia tiempo para parar si alguien decia que yo le gustaba. no fue como si los rozara como diciendo, 'No quiero escucharlo'. Tuve tiempo de parar como, '¿Lo haces?' ¿Sabes a lo que me refiero? Es como, era como, la forma en que me relacionaba con el mundo era diferente"
+    />
+
+    <p class="mb-5 leading-relaxed">
+      Esta empezando a llegar a un punto, dijo, en el que le gustaria que su vida "significara
+      algo", como cuando fue a la Universidad <em>Allen</em> y queria hablar con los estudiantes.
+      Su bisabuelo, el obispo <strong lang="en">William David Chappelle</strong>, fue presidente de
+      la universidad.
+    </p>
+
+    <p class="mb-5 leading-relaxed">
+      <q
+        >Esta bien tener miedo porque no puedes ser valiente o valiente sin miedo. La idea de ser
+        valiente es que, aunque tengas miedo, hagas lo correcto de todos modos. Entonces, en 2004,
+        me aleje de 50 millones y en noviembre, hice un trato por 60 millones</q
+      >, dijo a los estudiantes en un discurso en el Auditorio Chappelle.
+    </p>
+  </section>
+</BaseLayout>

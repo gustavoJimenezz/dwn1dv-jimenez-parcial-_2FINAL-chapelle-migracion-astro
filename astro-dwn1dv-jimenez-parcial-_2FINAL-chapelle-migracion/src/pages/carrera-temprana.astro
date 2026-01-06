@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FigureWithCaption from '../components/FigureWithCaption.astro';
+
+const pageTitle = 'Dave Chappelle - Carrera temprana';
+---
+
+<BaseLayout title={pageTitle} activeSection="sec_2">
+  <section class="max-w-[750px] mx-auto py-12 px-4">
+    <h2 class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent">Carrera temprana</h2>
+
+    <div class="contenedor-carrera-temprana">
+      <div class="mb-10">
+        <img
+          src="/imagenes/dave_chapelle_1993.jpg"
+          alt="dave chapelle 1993"
+          width="300"
+          height="225"
+          class="float-right w-[300px] mt-[15px] ml-[15px]"
+        />
+        <p class="text-justify">
+          Su carrera como comediante <strong lang="en">stand-up</strong> comenzo a los 14 mientras
+          efectuaba un circuito de comedias en <em lang="en">Washington D. C.</em> Despues de graduarse
+          de la escuela preparatoria, Chappelle se mudo a <em>Nueva York</em> para ejercer su carrera
+          como comediante. Reunio el valor para actuar en el famoso Teatro <em>Apollo</em> en
+          <em lang="en">Harlem</em> frente a la infame audiencia <span lang="en"
+            >"Amateur Night"</span
+          >. Tal actuacion fue abucheada por el publico. Chappelle ha descrito la experiencia como
+          el momento que le concedio el coraje para continuar sus aspiraciones en el mundo del
+          espectaculo.
+        </p>
+      </div>
+
+      <div class="mb-10">
+        <img
+          src="/imagenes/dave_chapelle_1998.jpg"
+          alt="dave chapelle 1995"
+          width="300"
+          height="225"
+          class="float-left w-[300px] mt-[15px] mr-[15px]"
+        />
+        <p class="text-justify">
+          La infancia de <strong>Chappelle</strong> se dividio entre <em lang="en"
+            >Silver Spring</em
+          >, <em lang="en">Maryland</em>, donde su madre fue maestra en varios colegios y
+          universidades locales, y <em lang="en">Yellow Springs</em>, <em lang="en">Ohio</em>,
+          donde su padre fue profesor en la Universidad de
+          <em lang="en">Antioch</em>. Comenzo a realizar monologos en el area de Washington despues
+          de graduarse de la distinguida Escuela de Artes <em lang="en">Duke Ellington</em> en <em
+            lang="en">Washington</em
+          > en 1991, se mudo a la ciudad de <em>Nueva York</em> para dedicarse a la comedia a
+          tiempo completo. La estrella de <strong>Chappelle</strong> ascendio rapidamente, actuo en
+          television con un papel secundario importante en la pelicula de <a
+            href="https://es.wikipedia.org/wiki/Mel_Brooks"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-link-blue hover:underline"
+            lang="en">Mel Brooks</a
+          > antes de cumplir los 20.
+        </p>
+      </div>
+    </div>
+
+    <FigureWithCaption
+      src="/imagenes/dave_robinh.jpg"
+      alt="captura de la pelicula Robin Hood"
+      width={700}
+      height={286}
+      caption={'"Robin Hood: Men in Tights" a Mel Brooks films.'}
+      captionLang="en"
+    />
+  </section>
+</BaseLayout>
