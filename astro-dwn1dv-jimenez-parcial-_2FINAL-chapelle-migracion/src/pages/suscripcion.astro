@@ -10,7 +10,7 @@ const pageTitle = 'Dave Chappelle - Suscripción';
 ---
 
 <BaseLayout title={pageTitle} activeSection="sec_7">
-  <main class="max-w-[750px] mx-auto">
+  <main class="max-w-[750px] mx-auto px-4 md:px-0">
     <form
       action="datos_a_procesar.php"
       method="post"
@@ -18,7 +18,7 @@ const pageTitle = 'Dave Chappelle - Suscripción';
       class="text-white"
       style="color-scheme: dark;"
     >
-      <fieldset class="flex flex-col my-12 bg-black border-none p-6">
+      <fieldset class="flex flex-col my-8 md:my-12 bg-black border-none p-4 md:p-6">
         <h2 class="text-2xl font-light mb-6 pb-2 border-b-2 border-red-accent">Datos Personales</h2>
 
         <TextInput
@@ -37,7 +37,7 @@ const pageTitle = 'Dave Chappelle - Suscripción';
           required={true}
         />
 
-        <div class="flex flex-row-reverse gap-10 my-4">
+        <div class="flex flex-col md:flex-row-reverse gap-4 md:gap-10 my-4">
           <div class="flex-1">
             <TextInput
               type="email"
@@ -70,7 +70,7 @@ const pageTitle = 'Dave Chappelle - Suscripción';
           maxlength={300}
         />
 
-        <div class="flex flex-row-reverse justify-center gap-10 my-5">
+        <div class="flex flex-col md:flex-row-reverse md:justify-center gap-4 md:gap-10 my-5">
           <div class="flex-1">
             <span class="block my-5">
               ¿que seccion de la pagina te gusto mas?
@@ -106,7 +106,7 @@ const pageTitle = 'Dave Chappelle - Suscripción';
         <input
           type="submit"
           value="Enviar"
-          class="cursor-pointer w-auto rounded-[3px] my-2.5 mx-auto border-none p-3 font-light bg-dark-bg text-white hover:bg-gradient-radial hover:from-[rgba(35,38,48,1)] hover:via-[rgba(14,15,19,1)] hover:to-[rgba(14,15,19,1)] transition-all duration-300"
+          class="cursor-pointer w-full md:w-auto rounded-[3px] my-2.5 mx-auto border-none p-3 font-light bg-dark-bg text-white hover:bg-gradient-radial hover:from-[rgba(35,38,48,1)] hover:via-[rgba(14,15,19,1)] hover:to-[rgba(14,15,19,1)] transition-all duration-300"
         />
       </fieldset>
     </form>

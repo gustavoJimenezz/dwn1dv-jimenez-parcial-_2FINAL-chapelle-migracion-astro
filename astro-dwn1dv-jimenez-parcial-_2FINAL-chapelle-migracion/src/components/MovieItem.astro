@@ -31,8 +31,14 @@ const { movie, index } = Astro.props;
     overflow: hidden;
     border-radius: 3px;
     display: block;
-    float: left;
-    width: 100px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .movie-link {
+      float: left;
+      width: 100px;
+    }
   }
 
   .movie-link::before {

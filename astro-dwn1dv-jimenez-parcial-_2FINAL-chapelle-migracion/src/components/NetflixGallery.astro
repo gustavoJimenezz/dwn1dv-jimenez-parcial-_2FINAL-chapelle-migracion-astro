@@ -26,16 +26,29 @@ const { specials } = Astro.props;
   .especiales-netflix {
     display: flex;
     flex-wrap: wrap;
+    gap: 1rem;
   }
 
   .netflix-link {
     position: relative;
-    flex: 1;
+    flex: 1 1 100%;
     padding-top: 1em;
   }
 
+  @media (min-width: 768px) {
+    .netflix-link {
+      flex: 1 1 calc(50% - 1rem);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .netflix-link {
+      flex: 1 1 calc(25% - 1rem);
+    }
+  }
+
   .netflix-image {
-    width: inherit;
+    width: 100%;
     border-radius: 5px;
   }
 

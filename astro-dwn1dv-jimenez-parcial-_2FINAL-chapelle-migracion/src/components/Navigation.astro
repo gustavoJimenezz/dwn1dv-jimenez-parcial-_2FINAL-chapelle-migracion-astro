@@ -8,7 +8,7 @@ interface Props {
 const { activeSection } = Astro.props;
 ---
 
-<nav class="sticky top-0 z-10 bg-darker py-3 text-center">
+<nav class="sticky top-0 z-10 bg-darker py-3 text-center flex flex-col md:flex-row md:justify-center gap-2 md:gap-0">
   {navLinks.map((link) => (
     <a
       href={link.href}
