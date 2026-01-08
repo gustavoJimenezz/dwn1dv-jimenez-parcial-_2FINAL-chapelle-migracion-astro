@@ -1862,3 +1862,481 @@ Mejoras: Configuración de description, og:title, og:type y twitter:card dinámi
 Accesibilidad: Revisión manual de contrastes en botones y adición de aria-label en enlaces de redes sociales.
 
 Rutas: Sustitución de enlaces tipo href="/contacto.html" por rutas limpias de Astro href="/contacto".
+
+---
+
+## FASE 8: DISEÑO RESPONSIVE
+
+**Estado:** ✅ Completada
+**Fecha:** 2026-01-08
+**Duración:** 2 horas
+**Complejidad:** MEDIA
+**Dependencia:** FASES 1-7
+
+### Objetivo
+Agregar diseño responsive al sitio (mejora NO presente en el HTML/CSS original). Implementar breakpoints mobile-first usando Tailwind CSS v4 con media queries `md:` (768px) y `lg:` (1024px).
+
+**IMPORTANTE:** Esta fase es una MEJORA sobre el sitio original, que NO tiene media queries ni diseño responsive.
+
+---
+
+### Punto 8.1: Responsive Header
+
+**Archivo modificado:**
+- `src/components/Header.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 5: Header con clases responsive -->
+<header class="bg-black bg-fixed bg-[length:600px] md:bg-[length:1006px] bg-center bg-no-repeat border-b-2 border-red-accent">
+  <!-- Línea 6: H1 con tamaños y padding responsive -->
+  <h1 class="font-light text-[2em] md:text-[3.5em] text-center pt-[280px] md:pt-[480px] pb-8 md:pb-12 m-auto px-4">
+    Dave Chappelle
+  </h1>
+</header>
+```
+
+**Mapeo responsive implementado:**
+```
+/* Móvil (< 768px) */
+background-size: 600px → bg-[length:600px]
+font-size: 2em → text-[2em]
+padding-top: 280px → pt-[280px]
+padding-bottom: 32px → pb-8
+padding-horizontal: 16px → px-4
+
+/* Desktop (≥ 768px) */
+background-size: 1006px → md:bg-[length:1006px]
+font-size: 3.5em → md:text-[3.5em]
+padding-top: 480px → md:pt-[480px]
+padding-bottom: 48px → md:pb-12
+```
+
+**Resultado:**
+- Header más compacto en móviles para reducir espacio vertical
+- Título legible en pantallas pequeñas
+- Padding horizontal para evitar que el texto toque los bordes
+
+---
+
+### Punto 8.2: Responsive Navigation
+
+**Archivo modificado:**
+- `src/components/Navigation.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 11: Nav con layout flexible -->
+<nav class="sticky top-0 z-10 bg-darker py-3 text-center flex flex-col md:flex-row md:justify-center gap-2 md:gap-0">
+  {navLinks.map((link) => (
+    <a
+      href={link.href}
+      class={`text-white no-underline px-2.5 inline-block h-6 nav-link ${activeSection === link.section ? 'pagina-activada' : ''}`}
+    >
+      {link.label}
+    </a>
+  ))}
+</nav>
+```
+
+**Mapeo responsive implementado:**
+```
+/* Móvil (< 768px) */
+display: flex; flex-direction: column → flex flex-col
+gap: 8px → gap-2
+
+/* Desktop (≥ 768px) */
+flex-direction: row → md:flex-row
+justify-content: center → md:justify-center
+gap: 0 → md:gap-0
+```
+
+**Resultado:**
+- Navegación apilada verticalmente en móviles para mejor usabilidad táctil
+- Enlaces horizontales en desktop como diseño original
+- Mayor espaciado entre enlaces en móvil para evitar clicks accidentales
+
+---
+
+### Punto 8.3: Responsive Layouts de Contenido
+
+#### Archivo: `src/components/ImageTextContainer.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 19-28: Imagen con float responsive -->
+<div class="overflow-auto">
+  <img
+    src={imageSrc}
+    alt={imageAlt}
+    width={imageWidth}
+    height={imageHeight}
+    class={imagePosition === 'left'
+      ? 'w-full md:w-auto md:float-left md:mr-5 mb-3'
+      : 'w-full md:w-auto md:float-right md:ml-5 mb-3'}
+  />
+  <slot />
+</div>
+```
+
+**Mapeo responsive:**
+```
+/* Móvil (< 768px) */
+width: 100% → w-full
+float: none (sin float)
+margin: 0 0 12px 0 → mb-3
+
+/* Desktop (≥ 768px) */
+width: auto → md:w-auto
+float: left/right → md:float-left / md:float-right
+margin-right/left: 20px → md:mr-5 / md:ml-5
+```
+
+---
+
+#### Archivo: `src/components/CharacterCard.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 11-23: Tarjeta de personaje responsive -->
+<div class="my-5 overflow-auto text-justify">
+  <img
+    src={character.image}
+    alt={`Perfil del personaje ${character.name}`}
+    class="w-full md:w-[200px] md:float-left md:mr-4 mb-2"
+    width="200"
+    height="195"
+  />
+  <h4 class="text-xl font-semibold mb-2">{character.name}</h4>
+  <p class="leading-7">{character.description}</p>
+</div>
+```
+
+**Mapeo responsive:**
+```
+/* Móvil */
+width: 100% → w-full
+(imagen full-width, no float)
+
+/* Desktop */
+width: 200px → md:w-[200px]
+float: left → md:float-left
+margin-right: 16px → md:mr-4
+```
+
+---
+
+#### Archivo: `src/components/MovieItem.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 28-42: Estilos responsive con media queries CSS -->
+<style>
+  .movie-link {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    display: block;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .movie-link {
+      float: left;
+      width: 100px;
+    }
+  }
+
+  /* ... resto de estilos ... */
+</style>
+```
+
+**Técnica implementada:**
+- Media query CSS nativa dentro de `<style>` scoped
+- Móvil: imagen full-width
+- Desktop: imagen 100px flotando a la izquierda
+
+---
+
+### Punto 8.4: Responsive Galerías
+
+#### Archivo: `src/components/GifGallery.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 16-26: Galería con stack vertical en móvil -->
+<div class="flex flex-col md:flex-row gap-5">
+  {gifs.map((gif) => (
+    <img
+      src={gif.src}
+      alt={gif.alt}
+      width={gif.width}
+      height={gif.height}
+      class="w-full md:w-auto"
+    />
+  ))}
+</div>
+```
+
+**Mapeo responsive:**
+```
+/* Móvil */
+flex-direction: column → flex-col
+width: 100% → w-full
+
+/* Desktop */
+flex-direction: row → md:flex-row
+width: auto → md:w-auto
+```
+
+---
+
+#### Archivo: `src/components/CharacterGifGallery.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 17-40: Layout complejo responsive -->
+<div class="flex flex-col md:flex-row gap-5 my-8">
+  <!-- Columna vertical de GIFs -->
+  <div class="flex flex-col gap-5">
+    {verticalGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        class="w-full md:w-[200px]"
+        width={gif.width}
+        height={gif.height}
+      />
+    ))}
+  </div>
+
+  <!-- Grupo de GIFs con wrap -->
+  <div class="flex flex-wrap gap-4">
+    {groupGifs.map((gif) => (
+      <img
+        src={gif.src}
+        alt={gif.alt}
+        width={gif.width}
+        height={gif.height}
+        class="w-full md:w-auto"
+      />
+    ))}
+  </div>
+</div>
+```
+
+**Mapeo responsive:**
+```
+/* Móvil */
+Contenedor: flex-col (GIFs apilados verticalmente)
+Imágenes: w-full (full-width)
+
+/* Desktop */
+Contenedor: md:flex-row (layout horizontal)
+Imágenes verticales: md:w-[200px]
+Imágenes agrupadas: md:w-auto
+```
+
+---
+
+#### Archivo: `src/components/NetflixGallery.astro`
+
+**Cambios realizados:**
+```astro
+<!-- Línea 25-53: Estilos responsive con media queries CSS -->
+<style>
+  .especiales-netflix {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .netflix-link {
+    position: relative;
+    flex: 1 1 100%;
+    padding-top: 1em;
+  }
+
+  @media (min-width: 768px) {
+    .netflix-link {
+      flex: 1 1 calc(50% - 1rem);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .netflix-link {
+      flex: 1 1 calc(25% - 1rem);
+    }
+  }
+
+  .netflix-image {
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  /* ... resto de estilos ... */
+</style>
+```
+
+**Sistema de breakpoints implementado:**
+```
+/* Móvil (< 768px) */
+flex: 1 1 100% → 1 columna (full-width)
+
+/* Tablet (≥ 768px) */
+flex: 1 1 calc(50% - 1rem) → 2 columnas
+
+/* Desktop (≥ 1024px) */
+flex: 1 1 calc(25% - 1rem) → 4 columnas
+```
+
+**Resultado:**
+- Layout adaptativo: 1 → 2 → 4 columnas según tamaño de pantalla
+- Gap consistente de 1rem entre items
+- Imágenes siempre 100% del contenedor
+
+---
+
+### Punto 8.5: Responsive Formulario
+
+**Archivo modificado:**
+- `src/pages/suscripcion.astro`
+
+**Cambios realizados:**
+
+```astro
+<!-- Línea 13: Main con padding responsive -->
+<main class="max-w-[750px] mx-auto px-4 md:px-0">
+  <form ...>
+    <!-- Línea 21: Fieldset con padding responsive -->
+    <fieldset class="flex flex-col my-8 md:my-12 bg-black border-none p-4 md:p-6">
+
+      <!-- Línea 40: Campos email + fecha -->
+      <div class="flex flex-col md:flex-row-reverse gap-4 md:gap-10 my-4">
+        <div class="flex-1">
+          <TextInput type="email" ... />
+        </div>
+        <div class="flex-1">
+          <TextInput type="date" ... />
+        </div>
+      </div>
+
+      <!-- Línea 73: Preguntas opcionales (select + checkboxes) -->
+      <div class="flex flex-col md:flex-row-reverse md:justify-center gap-4 md:gap-10 my-5">
+        <div class="flex-1">
+          <Select ... />
+        </div>
+        <div class="flex-1">
+          {favoriteSpecials.map(...)}
+        </div>
+      </div>
+
+      <!-- Línea 106: Submit button full-width en móvil -->
+      <input
+        type="submit"
+        value="Enviar"
+        class="cursor-pointer w-full md:w-auto rounded-[3px] ..."
+      />
+    </fieldset>
+  </form>
+</main>
+```
+
+**Mapeo responsive implementado:**
+```
+/* Main container */
+Móvil: px-4 (padding horizontal)
+Desktop: md:px-0 (sin padding, centrado con max-w)
+
+/* Fieldset */
+Móvil: my-8 p-4 (menos espaciado)
+Desktop: md:my-12 md:p-6 (más espaciado)
+
+/* Campos en dos columnas */
+Móvil: flex-col gap-4 (apilados)
+Desktop: md:flex-row-reverse md:gap-10 (horizontales)
+
+/* Submit button */
+Móvil: w-full (full-width para mejor UX táctil)
+Desktop: md:w-auto (ancho automático)
+```
+
+**Resultado:**
+- Formulario usable en pantallas pequeñas
+- Campos apilados verticalmente en móvil
+- Layout de dos columnas en desktop
+- Botón de envío full-width en móvil para facilitar el tap
+
+---
+
+## Resumen FASE 8
+
+**Archivos modificados:** 8 totales
+- `src/components/Header.astro` - Header responsive con breakpoints
+- `src/components/Navigation.astro` - Navegación vertical/horizontal
+- `src/components/ImageTextContainer.astro` - Imágenes flotantes responsive
+- `src/components/CharacterCard.astro` - Tarjetas responsive
+- `src/components/MovieItem.astro` - Items de películas responsive
+- `src/components/GifGallery.astro` - Galería stack/horizontal
+- `src/components/CharacterGifGallery.astro` - Layout complejo responsive
+- `src/components/NetflixGallery.astro` - Grid adaptativo 1→2→4 columnas
+- `src/pages/suscripcion.astro` - Formulario responsive
+
+**Breakpoints Tailwind utilizados:**
+```javascript
+md: 768px   // Tablet y desktop
+lg: 1024px  // Desktop grande (solo en NetflixGallery)
+```
+
+**Estrategia Mobile-First:**
+1. Estilos base para móvil (< 768px)
+2. Modificadores `md:` para tablet/desktop (≥ 768px)
+3. Modificadores `lg:` para desktop grande (≥ 1024px) cuando necesario
+
+**Técnicas responsive implementadas:**
+
+1. **Flex Direction Switching:**
+   ```
+   flex-col → md:flex-row
+   ```
+   - Navegación, galerías, campos de formulario
+
+2. **Width Responsive:**
+   ```
+   w-full → md:w-auto
+   w-full → md:w-[200px]
+   w-full → md:w-auto
+   ```
+   - Imágenes, galerías, botones
+
+3. **Float Responsive:**
+   ```
+   (no float) → md:float-left
+   (no float) → md:float-right
+   ```
+   - Imágenes flotantes con texto envolvente
+
+4. **Spacing Responsive:**
+   ```
+   py-8 px-4 → md:py-12 md:px-0
+   gap-2 → md:gap-0
+   gap-4 → md:gap-10
+   ```
+   - Padding, márgenes, gaps
+
+5. **Media Queries CSS Nativas:**
+   ```css
+   @media (min-width: 768px) { ... }
+   @media (min-width: 1024px) { ... }
+   ```
+   - Usado en componentes con estilos scoped complejos
+
+**Testing recomendado (manual):**
+- ✅ Chrome DevTools: 375px (móvil), 768px (tablet), 1024px (desktop), 1440px (desktop grande)
+- ✅ Verificar navegación usable en móvil
+- ✅ Verificar imágenes no desborden en móvil
+- ✅ Verificar formulario funcional en pantallas pequeñas
+- ✅ Verificar galerías adaptan correctamente
+- ✅ Verificar header no ocupa demasiado espacio vertical en móvil
+
+**Estado:** FASE 8 completada exitosamente. El sitio ahora es completamente responsive con diseño mobile-first usando Tailwind CSS v4, mejorando significativamente la experiencia de usuario en dispositivos móviles y tablets.
