@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { Character } from '../data/characters';
 
 interface Props {
@@ -9,12 +10,14 @@ const { character } = Astro.props;
 ---
 
 <div class="my-5 overflow-auto text-justify">
-  <img
+  <Image
     src={character.image}
     alt={`Perfil del personaje ${character.name}`}
     class="w-full md:w-[200px] md:float-left md:mr-4 mb-2"
-    width="200"
-    height="195"
+    width={200}
+    height={195}
+    format="webp"
+    loading="lazy"
   />
   <h4 class="text-xl font-semibold mb-2">{character.name}</h4>
   <p class="leading-7">

@@ -1,6 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FigureWithCaption from '../components/FigureWithCaption.astro';
+import daveChapelle1993Img from '../assets/imagenes/dave_chapelle_1993.jpg';
+import daveChapelle1998Img from '../assets/imagenes/dave_chapelle_1998.jpg';
+import daveRobinhImg from '../assets/imagenes/dave_robinh.jpg';
 
 const pageTitle = 'Dave Chappelle - Carrera temprana';
 ---
@@ -11,11 +15,13 @@ const pageTitle = 'Dave Chappelle - Carrera temprana';
 
     <div class="contenedor-carrera-temprana">
       <div class="mb-10">
-        <img
-          src="/imagenes/dave_chapelle_1993.jpg"
+        <Image
+          src={daveChapelle1993Img}
           alt="dave chapelle 1993"
-          width="300"
-          height="225"
+          width={300}
+          height={225}
+          format="webp"
+          loading="lazy"
           class="float-right w-[300px] mt-[15px] ml-[15px]"
         />
         <p class="text-justify">
@@ -32,11 +38,13 @@ const pageTitle = 'Dave Chappelle - Carrera temprana';
       </div>
 
       <div class="mb-10">
-        <img
-          src="/imagenes/dave_chapelle_1998.jpg"
+        <Image
+          src={daveChapelle1998Img}
           alt="dave chapelle 1995"
-          width="300"
-          height="225"
+          width={300}
+          height={225}
+          format="webp"
+          loading="lazy"
           class="float-left w-[300px] mt-[15px] mr-[15px]"
         />
         <p class="text-justify">
@@ -62,7 +70,7 @@ const pageTitle = 'Dave Chappelle - Carrera temprana';
     </div>
 
     <FigureWithCaption
-      src="/imagenes/dave_robinh.jpg"
+      src={daveRobinhImg}
       alt="captura de la pelicula Robin Hood"
       width={700}
       height={286}

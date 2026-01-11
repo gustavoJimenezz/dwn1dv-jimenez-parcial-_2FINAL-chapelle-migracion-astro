@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
-  src: string;
+  src: ImageMetadata;
   alt: string;
   width: number;
   height: number;
@@ -12,7 +15,7 @@ const { src, alt, width, height, caption, captionLang } = Astro.props;
 ---
 
 <figure>
-  <img src={src} alt={alt} width={width} height={height} />
+  <Image src={src} alt={alt} width={width} height={height} format="webp" loading="lazy" />
   <figcaption lang={captionLang}>{caption}</figcaption>
 </figure>
 

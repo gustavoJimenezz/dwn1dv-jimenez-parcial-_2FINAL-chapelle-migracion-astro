@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GifGallery from '../components/GifGallery.astro';
 import ImageTextContainer from '../components/ImageTextContainer.astro';
+import daveHboImg from '../assets/imagenes/dave_hbo.jpg';
 
 const pageTitle = 'Dave Chappelle';
 
@@ -80,7 +81,7 @@ const introGifs = [
     </p>
 
     <ImageTextContainer
-      imageSrc="/imagenes/dave_hbo.jpg"
+      imageSrc={daveHboImg}
       imageAlt="Chapelle presentandose en HBO"
       imagePosition="right"
       imageWidth={250}
