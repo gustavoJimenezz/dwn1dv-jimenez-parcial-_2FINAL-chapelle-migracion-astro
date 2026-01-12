@@ -1,5 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import buddiesLogoImg from '../assets/imagenes/buddies_logo.png';
+import buddiesRepartoImg from '../assets/imagenes/buddies_reparto.jpg';
+import buddiesPortadaImg from '../assets/imagenes/buddies_portada.jpg';
+import boddiesTelevisionJpgImg from '../assets/imagenes/boddies_television.jpg';
+import boddiesTelevisionPngImg from '../assets/imagenes/boddies_television.png';
 
 const pageTitle = 'Dave Chappelle - Buddies';
 ---
@@ -10,11 +16,13 @@ const pageTitle = 'Dave Chappelle - Buddies';
       <h2 class="text-3xl font-light mb-6 pb-2 border-b-2 border-red-accent" lang="en">
         Buddies
       </h2>
-      <img
-        src="/imagenes/buddies_logo.png"
+      <Image
+        src={buddiesLogoImg}
         alt="logo del show"
-        width="700"
-        height="245"
+        width={700}
+        height={245}
+        format="webp"
+        loading="lazy"
         class="w-[700px] max-w-full"
       />
 
@@ -66,11 +74,13 @@ const pageTitle = 'Dave Chappelle - Buddies';
         >.
       </p>
 
-      <img
-        src="/imagenes/buddies_reparto.jpg"
+      <Image
+        src={buddiesRepartoImg}
         alt="reparto de la serie Buddies"
-        width="500"
-        height="390"
+        width={500}
+        height={390}
+        format="webp"
+        loading="lazy"
         class="w-[500px] max-w-full"
       />
 
@@ -89,11 +99,13 @@ const pageTitle = 'Dave Chappelle - Buddies';
           class="text-link-blue hover:underline"
           lang="en">Jim Breuer</a
         > atrajeron la atención de los ejecutivos de las cadenas de televisión con su
-        <img
-          src="/imagenes/buddies_portada.jpg"
+        <Image
+          src={buddiesPortadaImg}
           alt="portada de la serie Buddies"
-          width="150"
-          height="215"
+          width={150}
+          height={215}
+          format="webp"
+          loading="lazy"
           class="float-left w-[150px] my-[5px] mx-[10px] rounded-[10px]"
         />
         aparición especial en el episodio del 14 de marzo de 1995 (cuarta temporada) de la comedia Home
@@ -148,18 +160,22 @@ const pageTitle = 'Dave Chappelle - Buddies';
         quisieran que la mayoría de ellos fueran reemplazados por personas blancas.
       </p>
       <div class="relative w-[250px] mx-auto my-5">
-        <img
-          src="/imagenes/boddies_television.jpg"
+        <Image
+          src={boddiesTelevisionJpgImg}
           alt="portada tv de Buddies"
-          width="250"
-          height="375"
+          width={250}
+          height={375}
+          format="webp"
+          loading="lazy"
           class="block w-full rounded-[10px]"
         />
-        <img
-          src="/imagenes/boddies_television.png"
+        <Image
+          src={boddiesTelevisionPngImg}
           alt="portada tv de Buddies"
-          width="250"
-          height="375"
+          width={250}
+          height={375}
+          format="webp"
+          loading="lazy"
           class="absolute block w-full top-0 rounded-[5px]"
         />
       </div>
