@@ -3,11 +3,10 @@ description: agrega los cambios y hace commit (solo cambios de la migracion actu
 ---
 
 ## Flujo de Git y Commits
-
-Cuando te pida "preparar un commit" o ejecutar un "commit estructurado", sigue este proceso estrictamente:
+ejecutar un "commit estructurado", sigue este proceso:
 
 ### 1. Preparación (Add)
-- Solo haz `git add` de los archivos dentro de `./astro-dwn1dv-jimenez-parcial-_2FINAL-chapelle-migracion/`.
+- haz `git add` de los archivos dentro de `./astro-dwn1dv-jimenez-parcial-_2FINAL-chapelle-migracion/` y del archivo `documentacion-migracion-astro.md`.
 - NO agregues archivos de la carpeta `original-...` ni archivos de notas personales a menos que lo pida explícitamente.
 
 ### 2. Formato del Mensaje
