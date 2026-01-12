@@ -20,6 +20,7 @@ const { gifs } = Astro.props;
       alt={gif.alt}
       width={gif.width}
       height={gif.height}
+      loading="lazy"
       class="w-full md:w-auto"
     />
   ))}
