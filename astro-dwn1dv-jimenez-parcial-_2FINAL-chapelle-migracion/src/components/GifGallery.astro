@@ -13,7 +13,7 @@ interface Props {
 const { gifs } = Astro.props;
 ---
 
-<div class="flex flex-col md:flex-row gap-5">
+<div class="flex flex-col md:flex-row gap-5 justify-between">
   {gifs.map((gif) => (
     <img
       src={gif.src}
@@ -21,7 +21,7 @@ const { gifs } = Astro.props;
       width={gif.width}
       height={gif.height}
       loading="lazy"
-      class="w-full md:w-auto"
+      class="w-full md:w-auto rounded-sm"
     />
   ))}
 </div>

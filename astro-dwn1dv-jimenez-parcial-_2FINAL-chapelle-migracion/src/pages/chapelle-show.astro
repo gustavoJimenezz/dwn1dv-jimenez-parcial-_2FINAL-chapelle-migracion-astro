@@ -6,17 +6,15 @@ import { characters } from '../data/characters';
 
 const pageTitle = "Chappelle's Show - Dave Chappelle";
 
-const verticalGifs = [
-  { src: '/imagenes/gif/carter.gif', alt: 'gif de Tron Carter', width: 200, height: 149 },
-  { src: '/imagenes/gif/lil_jon.gif', alt: 'gif de Lil jon', width: 200, height: 149 },
-  { src: '/imagenes/gif/leonard.gif', alt: 'gif de Leonard', width: 200, height: 163 }
+const groupGifs = [
+  { src: '/imagenes/gif/tyrone.gif', alt: 'gif de Tayrone', width: 470, height: 353, class: 'row-start-1 row-end-3 col-start-2 col-end-4' },
+  { src: '/imagenes/gif/confused.gif', alt: 'gif de Tron Carter', width: 200, height: 200, class: 'row-start-1 col-start-1' },
+  { src: '/imagenes/gif/lil_jon.gif', alt: 'gif de Lil jon', width: 200, height: 200, class: 'row-start-2 col-start-1' },
+  { src: '/imagenes/gif/leonard.gif', alt: 'gif de Leonard', width: 200, height: 200, class: 'row-start-3 col-start-1' },
+  { src: '/imagenes/gif/carter.gif', alt: 'gif escena de confisión', width: 200, height: 150, class: 'row-start-3 col-start-2' },
+  { src: '/imagenes/gif/taylor.gif', alt: 'gif de Taylor', width: 200, height: 200, class: 'row-start-3 col-start-3' }
 ];
 
-const groupGifs = [
-  { src: '/imagenes/gif/tyrone.gif', alt: 'gif de Tayrone', width: 470, height: 353 },
-  { src: '/imagenes/gif/confused.gif', alt: 'gif escena de confisión', width: 200, height: 150 },
-  { src: '/imagenes/gif/taylor.gif', alt: 'gif de Taylor', width: 200, height: 155 }
-];
 ---
 
 <BaseLayout title={pageTitle} activeSection="sec_3">
@@ -58,9 +56,10 @@ const groupGifs = [
       historia del <abbr title="Digital Versatile Disc">DVD</abbr>.
     </p>
 
-    <h3 class="text-2xl font-semibold mb-4 mt-8">Personajes</h3>
+    
+    <CharacterGifGallery groupGifs={groupGifs} />
 
-    <CharacterGifGallery verticalGifs={verticalGifs} groupGifs={groupGifs} />
+    <h3 class="text-2xl font-semibold mb-4 mt-8">Personajes</h3>
 
     <div class="space-y-8">
       {characters.map((character) => (

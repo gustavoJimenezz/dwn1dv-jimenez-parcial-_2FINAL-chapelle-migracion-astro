@@ -4,20 +4,26 @@ import { sources } from '../data/sources';
 ---
 
 <footer class="bg-black border-t-[3px] border-red-accent text-base">
-  <div class="overflow-auto max-w-[750px] mx-auto">
-    <img
+  <div class="overflow-auto max-w-[750px] mx-auto flex justify-center gap-6">
+    <div class="flex flex-col">
+
+      <img
       src={author.image}
-      alt="perfil del autor de frente"
+      alt="foto de perfil 4x4"
       width="250"
       height="249"
       loading="lazy"
       class="block float-left w-[250px] rounded-[10px] m-2.5"
-    >
-    <ul class="list-none my-10 mx-auto">
+      >
+      
+      <ul class="list-none my-10 mx-auto">
       <li class="text-center m-0 border-0">{author.name}</li>
       <li class="text-center m-0 border-0">{author.birthdate}</li>
       <li class="text-center m-0 border-0">{author.email}</li>
     </ul>
+  </div>
+
+  <div class="flex flex-col justify-center">
     <ul class="list-none my-10 mx-auto">
       {sources.map((source) => (
         <li class="text-center m-0 border-0">
@@ -27,5 +33,6 @@ import { sources } from '../data/sources';
         </li>
       ))}
     </ul>
+  </div>
   </div>
 </footer>
