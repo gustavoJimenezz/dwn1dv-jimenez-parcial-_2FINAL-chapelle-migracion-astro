@@ -514,16 +514,6 @@ npm run preview
 - Guía de deployment
 - Créditos y fuentes
 
-**9.7 Deploy**
-Opciones recomendadas:
-- **Netlify** - Drag & drop `/dist`, auto HTTPS
-- **Vercel** - Soporte nativo Astro
-- **GitHub Pages** - Gratis con GitHub Actions
-- **Cloudflare Pages** - CDN global gratuito
-
-**Archivos creados:**
-- README.md, netlify.toml (opcional)
-
 **Testing final:**
 - Deploy a producción
 - Testing completo en URL live
@@ -532,22 +522,6 @@ Opciones recomendadas:
 
 ## RESUMEN PLAN INCREMENTAL
 
-**Total: 10 fases (0-9) | 13-16.5 horas**
-
-| Fase | Complejidad | Duración | Archivos | Notas |
-|------|-------------|----------|----------|-------|
-| 0 - Setup | Baja | 30-45m | 4 | Incluye config manifest |
-| 1 - Layout | Media | 1.5-2h | 7 | Base + componentes estructura |
-| 2 - Index | Media | 1h | 3 | Página principal + 2 componentes |
-| 3 - Personajes | Media-Alta | 1.5h | 4 | 4 tipos de galerías GIF |
-| 4 - Filmografía | Media-Alta | 1.5h | 3 | 7 películas con zebra striping |
-| 5 - Netflix | Media | 2h | 7 | 4 especiales + 4 páginas contenido |
-| 6 - Formulario | Media-Alta | 1.5h | 6 | 4 componentes form reutilizables |
-| 7 - Optimización | Baja-Media | 1-1.5h | 3 | Animaciones, SEO, accesibilidad |
-| 8 - Responsive | Media | 1.5-2h | Modif. | **MEJORA** - No en original |
-| 9 - Deploy | Baja | 30-45m | 3 | Build + optimización imágenes |
-
-**Total archivos nuevos: ~40**
 
 **MEJORAS SOBRE EL ORIGINAL:**
 - ✅ Diseño responsive (FASE 8) - Original NO es responsive
