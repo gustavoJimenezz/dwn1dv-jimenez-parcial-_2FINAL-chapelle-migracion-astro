@@ -9,9 +9,9 @@ interface Props {
 const { specials } = Astro.props;
 ---
 
-<div class="especiales-netflix">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pb-6 ">
   {specials.map((special) => (
-    <a href={special.url} target="_blank" rel="noopener noreferrer" class="netflix-link">
+    <a href={special.url} target="_blank" rel="noopener noreferrer" class="group relative pt-4">
       <Image
         src={special.image}
         alt={`Dave presentando ${special.title}`}
@@ -19,60 +19,13 @@ const { specials } = Astro.props;
         height={418}
         format="webp"
         loading="lazy"
-        class="netflix-image"
+        class="w-full rounded hover:outline hover:outline-2 hover:outline-link-blue"
+      />
+      <img
+        src="/imagenes/icono_click_black.png"
+        alt=""
+        class="absolute bottom-2 right-12 w-5 h-5 group-hover:hidden"
       />
     </a>
   ))}
 </div>
-
-<style>
-  .especiales-netflix {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .netflix-link {
-    position: relative;
-    flex: 1 1 100%;
-    padding-top: 1em;
-  }
-
-  @media (min-width: 768px) {
-    .netflix-link {
-      flex: 1 1 calc(50% - 1rem);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .netflix-link {
-      flex: 1 1 calc(25% - 1rem);
-    }
-  }
-
-  .netflix-image {
-    width: 100%;
-    border-radius: 5px;
-  }
-
-  .netflix-image:hover {
-    outline: solid 2px #8cb4ff;
-  }
-
-  .netflix-link::before {
-    position: absolute;
-    content: "";
-    display: block;
-    background-image: url("/imagenes/icono_click_black.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    width: 20px;
-    height: 20px;
-    bottom: 8px;
-    right: 45px;
-  }
-
-  .netflix-link:hover::before {
-    display: none;
-  }
-</style>
